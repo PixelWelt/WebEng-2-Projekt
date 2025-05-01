@@ -1,0 +1,78 @@
+.flip-container {
+    display: grid;
+	place-items: center;
+    margin: auto;
+    height: 100%;
+}
+.flipper {
+  padding: 1em;
+  width: 20em;
+  height: 20em;
+  position: relative;
+    background: #f5f5f5;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+
+	transition: 0.6s;
+	transform-style: preserve-3d;
+}
+
+.front, .back {
+  /*background-color: rgba(0,0,0,.3);*/
+  position: absolute;
+    padding:10px 30px;
+  top: 0;
+  left: 0;
+  right: 0;
+
+	backface-visibility: hidden;
+}
+
+.front{
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+.back{
+    transform: rotateY(180deg);
+}
+.flip{
+		transform: rotateY(180deg);
+}
+input, .close{
+    width:100%;
+    margin-bottom:1em;
+    height:3vh;
+    box-sizing: border-box;
+    padding: 1em;
+}
+
+.title{
+  text-align: center;
+}
+.flipbutton{
+    color:#4096ee;
+    text-decoration:none;
+    text-align:left !important;
+}
+
+
+
+/* standard element styles */
+
+body, html {
+    height: 100%;
+    font-family: "Roboto", sans-serif;
+}
+dialog {
+    width: 20%;
+    margin-top: 2em;
+}
+#success{
+    border: 1px solid green;
+}
+#error{
+    border: 1px solid red;
+}
