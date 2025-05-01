@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlmodel import Session
-from models import User
+from models import User, Recipe
 
 engine = None
 
