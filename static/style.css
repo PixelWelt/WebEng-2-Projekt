@@ -41,7 +41,7 @@
 .flip{
 		transform: rotateY(180deg);
 }
-input, .close{
+#flipper > div.front > form > input, .close{
     width:100%;
     margin-bottom:1em;
     height:3vh;

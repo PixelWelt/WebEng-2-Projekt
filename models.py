@@ -45,23 +45,27 @@ class Recipe(SQLModel, table=True):
 
     Attributes:
         id (int | None): The unique identifier for the recipe. Primary key.
+        portions (int): The number of portions the recipe serves.
+        prep_time (int): The preparation time in minutes.
+        cook_time (int): The cooking time in minutes.
         title (str): The title of the recipe.
         img_path (str): The file path to the recipe's image.
         tags (list[str] | None): A list of tags associated with the recipe, stored as JSON.
         ingredients (list[str] | None): A list of ingredients for the recipe, stored as JSON.
-        steps (list[Step] | None): A list of steps to prepare the recipe, stored as JSON.
-        description (str): A detailed description of the recipe.
+        text (str): The text description of the recipe. Created by a rich text editor.
         author (str): The name of the recipe's author.
         author_id (int): The unique identifier of the author.
         created (datetime.datetime | None): The timestamp when the recipe was created.
     """
     id: int| None = Field(default=None, primary_key=True)
     title: str
+    portions: int
+    prep_time: int
+    cook_time: int
     img_path: str
     tags: list[str] | None = Field(default=None, sa_column=Column(JSON))
-    ingredients: list[str] | None = Field(default=None, sa_column=Column(JSON))
-    steps: list[Step] | None = Field(default=None, sa_column=Column(JSON))
-    description: str
+    ingredients: list[dict[str, str]] | None = Field(default=None, sa_column=Column(JSON))
+    text: str
     author: str
     author_id: int
     created: None | datetime.datetime

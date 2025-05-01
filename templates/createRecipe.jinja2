@@ -1,0 +1,86 @@
+<head>
+    <title>Create Recipe</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+</head>
+<body>
+    <form method="POST" action="/recipe/add" enctype="multipart/form-data">
+        <h1>Create a New Recipe</h1>
+        <label for="title">Recipe Name:</label>
+        <input type="text" id="title" name="title" required>
+        <input type="file" id="img_path" name="img_path" accept="image/*" required>
+        <input type="number" name="portions">
+        <input type="number" name="prep_time">
+        <input type="number" name="cook_time">
+
+        <button type="button" id="addIngredientButton">+ Add Ingredient</button>
+        <fieldset id="ingredientsFieldset">
+            <legend>Ingredients</legend>
+            <div class="ingredient">
+                <label for="ingredientName">Ingredient Name:</label>
+                <input type="text" name="ingredientName[0]" required>
+                <label for="ingredientAmount">Amount:</label>
+                <input type="text" name="ingredientAmount[0]" required>
+            </div>
+        </fieldset>
+        <div id="editor">
+        </div>
+        <input type="hidden" name="description" id="editorContent">
+        <fieldset>
+            <legend>Dietary Preferences</legend>
+            <input type="checkbox" value="vegetarian" name="tags[0]" id="vegetarian">
+            <label for="vegetarian">Vegetarian</label>
+            <input type="checkbox" value="vegan" name="tags[1]" id="vegan">
+            <label for="vegan">Vegan</label>
+            <input type="checkbox" value="glutenFree" name="tags[2]" id="glutenFree">
+            <label for="glutenFree">Gluten Free</label>
+            <input type="checkbox" value="dairyFree" name="tags[3]" id="dairyFree">
+            <label for="dairyFree">Dairy Free</label>
+            <input type="checkbox" value="nutFree" name="tags[4]" id="nutFree">
+            <label for="nutFree">Nut Free</label>
+        </fieldset>
+        <fieldset>
+            <legend>Cooking Method</legend>
+            <input type="checkbox" value="baking" name="tags[5]" id="baking">
+            <label for="baking">Baking</label>
+            <input type="checkbox" value="grilling" name="tags[6]" id="grilling">
+            <label for="grilling">Grilling</label>
+            <input type="checkbox" value="boiling" name="tags[7]" id="boiling">
+            <label for="boiling">Boiling</label>
+            <input type="checkbox" value="frying" name="tags[8]" id="frying">
+            <label for="frying">Frying</label>
+        </fieldset>
+        <fieldset>
+            <legend>Preparation Time</legend>
+            <input type="checkbox" value="fastToMake" name="tags[9]" id="fastToMake">
+            <label for="fastToMake">Fast to Make</label>
+            <input type="checkbox" value="slowCooked" name="tags[10]" id="slowCooked">
+            <label for="slowCooked">Slow Cooked</label>
+        </fieldset>
+        <input type="submit" value="Create Recipe">
+
+    </form>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+    let ingredientCount = 1;
+            document.getElementById("addIngredientButton").addEventListener("click", function() {
+                const fieldset = document.getElementById("ingredientsFieldset");
+                const newIngredient = document.createElement("div");
+                newIngredient.classList.add("ingredient");
+                newIngredient.innerHTML = `
+                    <label for="ingredientName">Ingredient Name:</label>
+                    <input type="text" name="ingredientName[${ingredientCount}]" required>
+                    <label for="ingredientAmount">Amount:</label>
+                    <input type="text" name="ingredientAmount[${ingredientCount}]" required>
+                `;
+                ingredientCount++;
+                fieldset.appendChild(newIngredient);
+            });
+            const quill = new Quill('#editor', {
+                theme: 'snow'
+            });
+            document.querySelector("form").addEventListener("submit", function() {
+                document.getElementById("editorContent").value = document.getElementsByClassName("ql-editor")[0].innerHTML;
+            });
+</script>

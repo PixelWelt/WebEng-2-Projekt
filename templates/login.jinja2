@@ -4,20 +4,22 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    {% if not success %}
-        <dialog id="error" open>
-            <h2>Error</h2>
-            {% for error in errors %}
-               <li>{{ error }}</li>
-            {% endfor %}
-            <button class='close' onclick='error.close()'>confirm</button>
-        </dialog>
-    {% else %}
-        <dialog id="success" open>
-            <h2>Success</h2>
-                <p>Account was successfully created.</p>
-            <button class='close' onclick='success.close()'>confirm</button>
-        </dialog>
+    {% if success is defined %}
+        {% if not success %}
+            <dialog id="error" open>
+                <h2>Error</h2>
+                {% for error in errors %}
+                   <li>{{ error }}</li>
+                {% endfor %}
+                <button class='close' onclick='error.close()'>confirm</button>
+            </dialog>
+        {% else %}
+            <dialog id="success" open>
+                <h2>Success</h2>
+                    <p>Account was successfully created.</p>
+                <button class='close' onclick='success.close()'>confirm</button>
+            </dialog>
+        {% endif %}
     {% endif %}
     <div class="flip-container">
             <div class="flipper" id="flipper">
