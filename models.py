@@ -1,7 +1,5 @@
-from pydantic import BaseModel
 from sqlalchemy import event
 from sqlmodel import Field, SQLModel, Column, JSON
-from enum import Enum
 import datetime
 
 
