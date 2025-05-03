@@ -45,6 +45,7 @@ def upload_recipe_img(img_path: UploadFile, recipe_name: str) -> str | None:
 
 	Args:
 		img_path (UploadFile): The image file to upload.
+		recipe_name (str): The name of the recipe.
 
 	Returns:
 		str: The file path of the uploaded image.

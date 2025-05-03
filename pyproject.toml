@@ -26,7 +26,8 @@ dependencies = [
     "python-multipart (>=0.0.20)",
     "sqlalchemy (>=2.0.40)",
     "sqlmodel (>=0.0.24)",
-    "uvicorn (>=0.34.2)"
+    "uvicorn (>=0.34.2)",
+    "pylint (>=3.3.6,<4.0.0)"
 ]
 
 
