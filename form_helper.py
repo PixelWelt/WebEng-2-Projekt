@@ -3,8 +3,6 @@ import uuid
 from PIL import Image
 from pathlib import Path
 
-from sqlalchemy.dialects.postgresql import Range
-
 
 def explode_ingredient_list(data: dict) -> list:
 	"""Extracts a list of ingredients from form data.
