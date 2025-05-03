@@ -1,3 +1,6 @@
+"""
+This module handles all database operations for the application.
+"""
 from sqlalchemy import create_engine, select
 from sqlmodel import Session, SQLModel
 from models import User, Recipe
