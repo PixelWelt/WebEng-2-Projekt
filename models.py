@@ -4,17 +4,6 @@ from sqlmodel import Field, SQLModel, Column, JSON
 from enum import Enum
 import datetime
 
-class StepType(Enum):
-    """
-    Enum representing the type of a step in a recipe.
-    Attributes:
-        Title (int): Represents the title of the recipe.
-        subtitle (int): Represents a subtitle in the recipe.
-        step (int): Represents a step in the recipe.
-    """
-    Title = 0,
-    subtitle = 1,
-    step = 2
 
 class User(SQLModel, table=True):
     """
@@ -27,17 +16,6 @@ class User(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     username: str
     password: str
-
-class Step(BaseModel):
-    """
-    Represents a step in a recipe.
-    Attributes:
-        stepType (StepType): The type of the step (e.g., title, subtitle, or step).
-        text (str): The text description of the step.
-    """
-    stepType: StepType
-    text: str
-
 
 class Recipe(SQLModel, table=True):
     """

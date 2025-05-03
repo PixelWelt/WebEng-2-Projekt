@@ -1,5 +1,5 @@
 from typing import Annotated, List
-from form_helper import explode_ingredient_list, explode_form_list
+from form_helper import explode_ingredient_list, get_tags, upload_recipe_img
 import password_validator
 import database_handler
 from auth_handler import create_access_token, verify_access_token
@@ -101,27 +101,45 @@ async def add_recipe(
     cook_time: int = Form(...),
     description: str = Form(...),
 ):
-    if verify_access_token(request):
+    token = verify_access_token(request)
+
+    if token:
+        author = token.get("sub")
+        user_id = database_handler.get_user(author).id
         form_data = await request.form()
+        # Extract the form data
         data = {key: value for key, value in form_data.items()}
+        # Extract the ingredient and tag data
         ingredients = explode_ingredient_list(data)
-        tags = explode_form_list(data, "tags")
+        tags = get_tags(data, "tags")
+
+        path = upload_recipe_img(img_path, title)
+
+        if path is None:
+            return {"Error": "Invalid image format (e.g. image/png, image/jpeg) or file size exceeds 10MB"}
+
         recipe = Recipe(
             title=title,
-            img_path=img_path.filename,
+            img_path=path,
             portions=portions,
             prep_time=prep_time,
             cook_time=cook_time,
             text=description,
             ingredients=ingredients,
             tags=tags,
+            author=author,
+            author_id=user_id,
         )
-
+        print(data)
+        database_handler.create_recipe(recipe)
         return {"success": True, "data": recipe}
     else:
         return {"Error": "You are not logged in"}
 
 
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+@app.get("/recipe/view/{recipe_id}")
+async def view_recipe(request: Request, recipe_id: int):
+    recipe = database_handler.retrieve_recipe(recipe_id)
+    if recipe is None:
+        return {"Error": "Recipe not found"}
+    return recipe
