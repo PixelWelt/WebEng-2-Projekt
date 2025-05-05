@@ -21,7 +21,7 @@ async def lifespan(app: FastAPI):
 
 limiter = Limiter(key_func=get_remote_address)
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, title="Recipe DB")
 
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
@@ -152,6 +152,7 @@ async def add_recipe(
 
 
 @app.get("/recipe/view/{recipe_id}")
+@limiter.limit("5/minute")
 async def view_recipe(request: Request, recipe_id: int):
     recipe = database_handler.retrieve_recipe(recipe_id)
     if recipe is None:
