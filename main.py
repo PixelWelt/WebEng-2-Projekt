@@ -5,24 +5,33 @@ import database_handler
 from auth_handler import create_access_token, verify_access_token
 from models import User, Recipe
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request, Body, Form, HTTPException, Response, File, UploadFile
+from fastapi import FastAPI, Request, Body, Form, HTTPException, Response, File, UploadFile, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     database_handler.startup()
     yield
+
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI(lifespan=lifespan)
 
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
 
 @app.post("/login")
+@limiter.limit("5/minute")
 async def login(request: Request, response: Response, user: Annotated[User, Form()]):
     """Handles user login by verifying credentials and generating an access token.
 
@@ -46,6 +55,7 @@ async def login(request: Request, response: Response, user: Annotated[User, Form
         return templates.TemplateResponse(name="login.jinja2", context={"success": False, "errors": errors, 'request': request})
 
 @app.get("/login", response_class=HTMLResponse)
+@limiter.limit("5/minute")
 async def root(request: Request):
     """
     Handles the GET request for the login page.
@@ -61,6 +71,7 @@ async def root(request: Request):
     )
 
 @app.get("/get_login_state")
+@limiter.limit("5/minute")
 async def get_login_state(request: Request):
     try:
         return verify_access_token(request)
@@ -70,6 +81,7 @@ async def get_login_state(request: Request):
         return {"success": False, "message": "An unexpected error occurred"}
 
 @app.post("/register")
+@limiter.limit("5/minute")
 async def login(request: Request, username: str = Form(...), password: str = Form(...), confirm_password: str = Form(...)):
     errors = []
     if password != confirm_password:
@@ -84,6 +96,7 @@ async def login(request: Request, username: str = Form(...), password: str = For
 
 
 @app.get("/recipe/add")
+@limiter.limit("5/minute")
 async def add_recipe(request: Request):
     if verify_access_token(request):
         return templates.TemplateResponse(
@@ -92,6 +105,7 @@ async def add_recipe(request: Request):
     else:
         return {"Error": "You are not logged in"}
 @app.post("/recipe/add")
+@limiter.limit("5/minute")
 async def add_recipe(
     request: Request,
     title: str = Form(...),
