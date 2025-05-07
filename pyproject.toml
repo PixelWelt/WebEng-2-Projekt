@@ -7,7 +7,7 @@ authors = [
 ]
 license = {text = "MIT"}
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12,<4.0"
 dependencies = [
     "fastapi (>=0.115.12)",
     "pillow (>=11.2.1)",
@@ -27,7 +27,8 @@ dependencies = [
     "sqlalchemy (>=2.0.40)",
     "sqlmodel (>=0.0.24)",
     "uvicorn (>=0.34.2)",
-    "pylint (>=3.3.6,<4.0.0)"
+    "pylint (>=3.3.6,<4.0.0)",
+    "slowapi (>=0.1.9,<0.2.0)"
 ]
 
 

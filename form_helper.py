@@ -1,3 +1,5 @@
+import os
+
 from fastapi import UploadFile
 import uuid
 from PIL import Image
@@ -52,32 +54,16 @@ def upload_recipe_img(img_path: UploadFile, recipe_name: str) -> str | None:
 	"""
 	try:
 		img_path.filename = img_path.filename.replace(" ", "_")
-		file_location = f"static/recipe_images/{recipe_name}-{uuid.uuid4()}-{img_path.filename}"
+		file_location = f"static/recipe_images/{recipe_name}-{uuid.uuid4()}.webp"
 		if not img_path.content_type.startswith("image/"):
 			return None
 		if img_path.size > 10 * 1024 * 1024:  # Check if file size exceeds 10MB
 			return None
-		with open(file_location, "wb+") as file_object:
-			file_object.write(img_path.file.read())
-		file_location = optimize_image(file_location)
+		image = Image.open(img_path.file)
+		image = image.convert("RGB")
+		image.save(file_location, "webp", optimize=True, quality=10)
+
 		return file_location
 	except Exception as e:
 		print(f"Error uploading image: {e}")
 		return None
-
-def optimize_image(image_path: str) -> str:
-	"""Optimizes an image for web use.
-
-	Args:
-		image_path (str): The path to the image file.
-
-	Returns:
-		str: The path to the optimized image.
-	"""
-	image = Image.open(image_path)
-	image = image.convert("RGB")
-
-	image_path = f"static/recipe_images/{Path(image_path).stem}.webp"
-
-	image.save(image_path, 'webp', optimize=True, quality=10)
-	return image_path

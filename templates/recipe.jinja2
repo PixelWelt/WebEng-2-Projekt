@@ -1,0 +1,42 @@
+<!Doctype HTML>
+<head>
+    <title>RecipeDB</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="recipe">
+        <div class="header">
+            <h1>{{ recipe.title }}</h1>
+            <h2>by <i>{{ recipe.author }}</i></h2>
+            <img src="/{{ recipe.img_path }}" alt="Recipe Image">
+            <div>
+                <span><img src="/static/icons/portions.svg" alt="Portions icon">{{ recipe.portions }}</span>
+                <span><img src="/static/icons/prep_time.svg" alt="Preparation time icon"> {{ recipe.prep_time }} min.</span>
+                <span><img src="/static/icons/cook_time.svg" alt="Cook time icon"> {{ recipe.cook_time }} min.</span>
+                <span><img src="/static/icons/total_time.svg" alt="Total time icon"> {{ recipe.prep_time+recipe.cook_time }} min.</span>
+            </div>
+
+        </div>
+        <div class="body">
+            <h2>Ingredients</h2>
+            <ul>
+                {% for ingredient in recipe.ingredients %}
+                    <li>{{ ingredient.name }}: {{ ingredient.amount }}</li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <h2>Description</h2>
+                <div>{{ recipe.text|safe}}</div>
+            <hr>
+            <ul class="recipe-tags">
+                {% for tag in recipe.tags %}
+                    <li>{{ tag }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Footer</p>
+    </div>
+
+</body>

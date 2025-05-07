@@ -1,8 +1,8 @@
 <!Doctype HTML>
 <head>
     <title>RecipeDB</title>
-    <!--<link rel="stylesheet" href="static/style.css">-->
-    <link rel="stylesheet" href="static/output.css">
+    <link rel="stylesheet" href="static/style.css">
+
 </head>
 <body class="bg-white">
     {% if success is defined %}
@@ -22,13 +22,13 @@
             </dialog>
         {% endif %}
     {% endif %}
-    <div class="relative bg-neutral-content text-neutral-content">
-            <div class="flipper bg-base-300" id="flipper">
+    <div class="flip-container">
+            <div class="flipper" id="flipper">
                 <div class="front">
-                    <h1 class="title black text-3xl font-bold text-accent">Login</h1>
+                    <h1 class="title">Login</h1>
                     <form action="login" method="post">
-                                <input type="text" name="username" placeholder="Username" />
-                                <input type="password" name="password" placeholder="Password" />
+                                <input type="text" name="username" placeholder="Username" required/>
+                                <input type="password" name="password" placeholder="Password" required/>
                                 <input type="submit" value="Login"/>
                     </form>
                     <a class="flipbutton" id="loginButton" href="#">Create my account →</a>
@@ -37,9 +37,9 @@
                 <div class="back">
                     <h1 class="title">Register</h1>
                     <form action="register" method="post">
-                            <input type="text" name="username" placeholder="Username" />
-                            <input type="password"  name="password" placeholder="Password" />
-                            <input type="password" name="confirm_password" placeholder="confirm Password" />
+                            <input type="text" name="username" placeholder="Username" required/>
+                            <input type="password"  name="password" placeholder="Password" required/>
+                            <input type="password" name="confirm_password" placeholder="confirm Password" required/>
                             <input type="submit" value="Sign up"/>
                     </form>
                     <a class="flipbutton" id="registerButton" href="#">Login to my account →</a>

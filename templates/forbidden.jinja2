@@ -1,0 +1,21 @@
+<!Doctype html>
+<head>
+    <title>RecipeDB</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Nuh uh! (ERROR 403)</h1>
+    <img src="/static/forbidden.jpg">
+    <audio autoplay src="/static/nuh_uh.mp3"></audio>
+    <br>
+    <a href="/login" style="color:whitesmoke;">Take me to the login Page</a>
+</body>
+<script>
+    const audio = document.querySelector('audio');
+    audio.volume = 1; // Set volume to 10%
+    document.addEventListener('click', () => {
+    audio.play().catch(error => {
+        console.error('Audio playback failed:', error);
+    });
+});
+</script>

@@ -28,7 +28,7 @@ def get_user(username: str) -> User | None:
     with Session(ENGINE) as session:
         query = select(User).where(User.username == username)
         fetched_user = session.exec(query).first()
-        return fetched_user[0]
+        return fetched_user[0] if fetched_user else None
 
 
 def create_user(user_to_create: User) -> bool:

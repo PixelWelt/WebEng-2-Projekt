@@ -1,11 +1,11 @@
-from typing import Annotated, List
+from typing import Annotated
 from form_helper import explode_ingredient_list, get_tags, upload_recipe_img
 import password_validator
 import database_handler
 from auth_handler import create_access_token, verify_access_token
 from models import User, Recipe
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request, Body, Form, HTTPException, Response, File, UploadFile, Depends
+from fastapi import FastAPI, Request, Form, HTTPException, Response, File, UploadFile, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -45,14 +45,24 @@ async def login(request: Request, response: Response, user: Annotated[User, Form
             - If login is successful: {"success": True, "message": "Login successful"}.
             - If login fails: {"success": False, "message": "Invalid credentials"}.
     """
+    errors = []
+    if user.password == "" or user.username == "":
+        errors.append("Username or password cannot be empty")
+        return templates.TemplateResponse(name="login.jinja2", context={"success": False, "errors": errors, 'request': request})
     verification_user = database_handler.get_user(user.username)
+    if verification_user is None:
+        errors.append("User does not exist")
+        return templates.TemplateResponse(name="login.jinja2", context={"success": False, "errors": errors, 'request': request})
     if password_validator.Hasher.verify_password(user.password, verification_user.password):
         token = create_access_token({"sub": user.username})
         response.set_cookie(key="access_token", value=token, httponly=True)
         return {"success": True, "message": "Login successful"}
+    elif database_handler.get_user(user.username) is None:
+        errors.append("User does not exist")
     else:
-        errors = ["Invalid credentials"]
-        return templates.TemplateResponse(name="login.jinja2", context={"success": False, "errors": errors, 'request': request})
+        errors.append("Invalid credentials")
+
+    return templates.TemplateResponse(name="login.jinja2", context={"success": False, "errors": errors, 'request': request})
 
 @app.get("/login", response_class=HTMLResponse)
 @limiter.limit("5/minute")
@@ -73,6 +83,17 @@ async def root(request: Request):
 @app.get("/get_login_state")
 @limiter.limit("5/minute")
 async def get_login_state(request: Request):
+    """
+        Checks if the user is logged in by verifying the access token.
+
+        Args:
+            request (Request): The incoming HTTP request.
+
+        Returns:
+            dict: A dictionary indicating the login state.
+                - If the user is logged in: The result of `verify_access_token(request)`.
+                - If an error occurs: {"success": False, "message": <error_message>}.
+    """
     try:
         return verify_access_token(request)
     except HTTPException as e:
@@ -84,6 +105,10 @@ async def get_login_state(request: Request):
 @limiter.limit("5/minute")
 async def login(request: Request, username: str = Form(...), password: str = Form(...), confirm_password: str = Form(...)):
     errors = []
+    if password == "" or username == "" or confirm_password == "":
+        errors.append("Username or password cannot be empty")
+        return templates.TemplateResponse(name="login.jinja2",
+                                          context={"success": False, "errors": errors, 'request': request})
     if password != confirm_password:
         errors.append('Passwords do not match')
     if len(errors) != 0:
@@ -96,14 +121,27 @@ async def login(request: Request, username: str = Form(...), password: str = For
 
 
 @app.get("/recipe/add")
-@limiter.limit("5/minute")
+@limiter.limit("10/minute")
 async def add_recipe(request: Request):
+    """
+     Handles the GET request for the recipe creation page.
+
+     Args:
+         request (Request): The incoming HTTP request.
+
+     Returns:
+         TemplateResponse:
+             - Renders the recipe creation page if the user is authenticated.
+             - Renders the forbidden page if the user is not authenticated.
+     """
     if verify_access_token(request):
         return templates.TemplateResponse(
             request=request, name="createRecipe.jinja2"
         )
     else:
-        return {"Error": "You are not logged in"}
+        return templates.TemplateResponse("forbidden.jinja2", {"request": request})
+
+
 @app.post("/recipe/add")
 @limiter.limit("5/minute")
 async def add_recipe(
@@ -115,6 +153,24 @@ async def add_recipe(
     cook_time: int = Form(...),
     description: str = Form(...),
 ):
+    """
+       Handles the POST request for adding a new recipe.
+
+       Args:
+           request (Request): The incoming HTTP request.
+           title (str): The title of the recipe.
+           img_path (UploadFile): The uploaded image file for the recipe.
+           portions (int): The number of portions the recipe serves.
+           prep_time (int): The preparation time in minutes.
+           cook_time (int): The cooking time in minutes.
+           description (str): A description or instructions for the recipe.
+
+       Returns:
+           TemplateResponse:
+               - Renders the recipe page if the recipe is successfully created.
+               - Renders the forbidden page if the user is not authenticated.
+               - Renders the recipe creation page with errors if the image upload fails.
+       """
     token = verify_access_token(request)
 
     if token:
@@ -130,7 +186,8 @@ async def add_recipe(
         path = upload_recipe_img(img_path, title)
 
         if path is None:
-            return {"Error": "Invalid image format (e.g. image/png, image/jpeg) or file size exceeds 10MB"}
+            errors = ["Invalid image file or file exceeds 10MB"]
+            return templates.TemplateResponse("createRecipe.jinja2", {"request": request, "errors": errors})
 
         recipe = Recipe(
             title=title,
@@ -146,15 +203,26 @@ async def add_recipe(
         )
         print(data)
         database_handler.create_recipe(recipe)
-        return {"success": True, "data": recipe}
+        return templates.TemplateResponse("recipe.jinja2", {"request": request, "recipe": recipe})
     else:
-        return {"Error": "You are not logged in"}
+        return templates.TemplateResponse("forbidden.jinja2", {"request": request})
 
 
 @app.get("/recipe/view/{recipe_id}")
 @limiter.limit("5/minute")
 async def view_recipe(request: Request, recipe_id: int):
+    """
+    Retrieves and displays a recipe based on its ID.
+
+    Args:
+        request (Request): The incoming HTTP request.
+        recipe_id (int): The unique identifier of the recipe to retrieve.
+
+    Returns:
+        TemplateResponse: Renders the recipe page if the recipe is found.
+        TemplateResponse: Returns an 404 page if the recipe is not found.
+    """
     recipe = database_handler.retrieve_recipe(recipe_id)
     if recipe is None:
         return {"Error": "Recipe not found"}
-    return recipe
+    return templates.TemplateResponse("recipe.jinja2", {"request": request, "recipe": recipe})

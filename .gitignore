@@ -1,2 +1,4 @@
 *.sqlite
 __pycache__/
+static/recipe_images
+.env
