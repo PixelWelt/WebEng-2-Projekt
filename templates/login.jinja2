@@ -1,9 +1,10 @@
 <!Doctype HTML>
 <head>
     <title>RecipeDB</title>
-    <link rel="stylesheet" href="static/style.css">
+    <!--<link rel="stylesheet" href="static/style.css">-->
+    <link rel="stylesheet" href="static/output.css">
 </head>
-<body>
+<body class="bg-white">
     {% if success is defined %}
         {% if not success %}
             <dialog id="error" open>
@@ -21,10 +22,10 @@
             </dialog>
         {% endif %}
     {% endif %}
-    <div class="flip-container">
-            <div class="flipper" id="flipper">
+    <div class="relative bg-neutral-content text-neutral-content">
+            <div class="flipper bg-base-300" id="flipper">
                 <div class="front">
-                    <h1 class="title">Login</h1>
+                    <h1 class="title black text-3xl font-bold text-accent">Login</h1>
                     <form action="login" method="post">
                                 <input type="text" name="username" placeholder="Username" />
                                 <input type="password" name="password" placeholder="Password" />
