@@ -25,10 +25,12 @@ def get_user(username: str) -> User | None:
     Returns:
         User | None: The user object if found, otherwise None.
     """
+    if does_username_exist(username):
+        return None
     with Session(ENGINE) as session:
         query = select(User).where(User.username == username)
         fetched_user = session.exec(query).first()
-        return fetched_user[0] if fetched_user else None
+        return fetched_user[0]
 
 
 def create_user(user_to_create: User) -> bool:
@@ -91,4 +93,4 @@ def retrieve_recipe(recipe_id: int) -> Recipe:
     with Session(ENGINE) as session:
         query = select(Recipe).where(Recipe.id == recipe_id)
         fetched_recipe = session.exec(query).first()
-        return fetched_recipe[0]
+        return fetched_recipe[0] if fetched_recipe else None

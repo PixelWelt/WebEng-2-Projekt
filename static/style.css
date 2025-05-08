@@ -28,7 +28,7 @@
 .flipper {
   padding: 1em;
   width: 20em;
-  height: 20em;
+  height: 30em;
   position: relative;
     background: var(--color-emerald-50);
     -webkit-border-radius: 20px;
@@ -46,7 +46,6 @@
   top: 0;
   left: 0;
   right: 0;
-
 	backface-visibility: hidden;
 }
 

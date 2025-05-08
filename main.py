@@ -28,7 +28,9 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-
+@app.get("/teapot")
+async def teapot(request: Request):
+    return {"Error": "418 I'm a teapot"}
 
 @app.post("/login")
 @limiter.limit("5/minute")
@@ -226,3 +228,4 @@ async def view_recipe(request: Request, recipe_id: int):
     if recipe is None:
         return {"Error": "Recipe not found"}
     return templates.TemplateResponse("recipe.jinja2", {"request": request, "recipe": recipe})
+
