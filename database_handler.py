@@ -25,12 +25,15 @@ def get_user(username: str) -> User | None:
     Returns:
         User | None: The user object if found, otherwise None.
     """
-    if does_username_exist(username):
-        return None
     with Session(ENGINE) as session:
         query = select(User).where(User.username == username)
         fetched_user = session.exec(query).first()
-        return fetched_user[0]
+        print(fetched_user)
+        print(does_username_exist(username))
+        if fetched_user:
+            return fetched_user[0]
+
+    return None
 
 
 def create_user(user_to_create: User) -> bool:
