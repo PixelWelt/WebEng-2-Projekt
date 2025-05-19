@@ -1,5 +1,6 @@
 name: generate doxygen documentation
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
 
