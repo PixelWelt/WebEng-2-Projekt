@@ -44,6 +44,7 @@ class Recipe(SQLModel, table=True):
     text: str
     author: str
     author_id: int
+    is_public: bool = Field(default=False)
     created: None | datetime.datetime
 
 @event.listens_for(Recipe,'before_insert')

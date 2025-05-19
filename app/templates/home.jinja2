@@ -1,0 +1,37 @@
+<!Doctype html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css"/>
+
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Recipe App!</h1>
+        <nav>
+
+            <div class="nav">
+                <a href="/recipe/add/">Create Recipe</a>
+                <a href="/logout" id="logout">Logout</a>
+            </div>
+        </nav>
+        <div class="user-info">
+            <p>Hello <strong>{{ username }}</strong>!</p>
+        </div>
+    </header>
+    <div class="home-main">
+        <h2>Your Recipes</h2>
+        <div class="recipe-list">
+            {% for recipe in recipes %}
+                <div class="recipe-card">
+                    <img src="{{ recipe.img_path }}" alt="{{ recipe.title }}">
+                    <h3>{{ recipe.title }}</h3>
+                    <p>Portions: {{ recipe.portions }}</p>
+                    <p>Prep Time: {{ recipe.prep_time }} minutes</p>
+                    <p>Cook Time: {{ recipe.cook_time }} minutes</p>
+                    <a href="/recipe/{{ recipe.id }}">View Recipe</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>

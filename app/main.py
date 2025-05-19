@@ -1,11 +1,14 @@
 from typing import Annotated
+
+from starlette.responses import RedirectResponse
+
 from form_helper import explode_ingredient_list, get_tags, upload_recipe_img
 import password_validator
 import database_handler
 from auth_handler import create_access_token, verify_access_token
 from models import User, Recipe
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request, Form, HTTPException, Response, File, UploadFile, Depends
+from fastapi import FastAPI, Request, Form, HTTPException, Response, File, UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -28,12 +31,52 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
+@app.get("/index.html")
+@app.get("/content.php")
+@app.get("/login.php")
+@app.get("/register.php")
+async def render_home(request: Request):
+    """
+    Handles POST requests to the home page.
+
+    Args:
+        request (Request): The incoming HTTP request.
+
+    Returns:
+        RedirectResponse: Redirects to the home page if the access token is valid.
+        RedirectResponse: Redirects to the forbidden page if the access token is invalid.
+    """
+    payload = verify_access_token(request)
+
+    if not payload:
+        return RedirectResponse(url="/login")
+
+    username = payload["sub"]
+    return templates.TemplateResponse("home.jinja2", {"request": request, "username": username})
+
+@app.post("/")
+@app.get("/")
+async def home(request: Request):
+    payload = verify_access_token(request)
+
+    if not payload:
+        return RedirectResponse(url="/forbidden")
+
+    username = payload["sub"]
+    return templates.TemplateResponse("home.jinja2", {"request": request, "username": username})
+
+
+@app.get("/forbidden")
+async def forbidden(request: Request):
+    return templates.TemplateResponse("forbidden.jinja2", {"request": request})
+
+
 @app.get("/teapot")
 async def teapot(request: Request):
     return {"Error": "418 I'm a teapot"}
 
 @app.post("/login")
-@limiter.limit("5/minute")
+@limiter.limit("50/minute")
 async def login(request: Request, response: Response, user: Annotated[User, Form()]):
     """Handles user login by verifying credentials and generating an access token.
 
@@ -57,8 +100,9 @@ async def login(request: Request, response: Response, user: Annotated[User, Form
         return templates.TemplateResponse(name="login.jinja2", context={"success": False, "errors": errors, 'request': request})
     if password_validator.Hasher.verify_password(user.password, verification_user.password):
         token = create_access_token({"sub": user.username})
+        response = RedirectResponse(url="/")
         response.set_cookie(key="access_token", value=token, httponly=True)
-        return {"success": True, "message": "Login successful"}
+        return response
     elif database_handler.get_user(user.username) is None:
         errors.append("User does not exist")
     else:
@@ -81,6 +125,21 @@ async def root(request: Request):
     return templates.TemplateResponse(
         request=request, name="login.jinja2"
     )
+
+@app.get("/logout")
+@limiter.limit("5/minute")
+async def logout(request: Request):
+    """
+    Handles the GET request for logging out the user.
+    Args:
+        request (Request): The incoming HTTP request.
+    Returns:
+        TemplateResponse: Renders the login page using the Jinja2 template and deletes the access token cookie.
+    """
+    response = templates.TemplateResponse(name="login.jinja2", context={'request': request})
+    response.delete_cookie(key="access_token")
+    return response
+
 
 @app.get("/get_login_state")
 @limiter.limit("5/minute")
@@ -122,6 +181,7 @@ async def login(request: Request, username: str = Form(...), password: str = For
         return templates.TemplateResponse(name="login.jinja2", context={"success": True, 'request': request})
 
 
+
 @app.get("/recipe/add")
 @limiter.limit("10/minute")
 async def add_recipe(request: Request):
@@ -141,7 +201,7 @@ async def add_recipe(request: Request):
             request=request, name="createRecipe.jinja2"
         )
     else:
-        return templates.TemplateResponse("forbidden.jinja2", {"request": request})
+        return RedirectResponse(url="/forbidden")
 
 
 @app.post("/recipe/add")
@@ -154,6 +214,7 @@ async def add_recipe(
     prep_time: int = Form(...),
     cook_time: int = Form(...),
     description: str = Form(...),
+    is_public: bool = Form(False),
 ):
     """
        Handles the POST request for adding a new recipe.
@@ -202,12 +263,13 @@ async def add_recipe(
             tags=tags,
             author=author,
             author_id=user_id,
+            is_public=is_public
         )
         print(data)
         database_handler.create_recipe(recipe)
-        return templates.TemplateResponse("recipe.jinja2", {"request": request, "recipe": recipe})
+        return {200: "Recipe created successfully"}
     else:
-        return templates.TemplateResponse("forbidden.jinja2", {"request": request})
+        return RedirectResponse(url="/forbidden")
 
 
 @app.get("/recipe/view/{recipe_id}")
@@ -225,6 +287,8 @@ async def view_recipe(request: Request, recipe_id: int):
         TemplateResponse: Returns an 404 page if the recipe is not found.
     """
     recipe = database_handler.retrieve_recipe(recipe_id)
+    if not verify_access_token(request):
+        return RedirectResponse(url="/forbidden")
     if recipe is None:
         return {"Error": "Recipe not found"}
     return templates.TemplateResponse("recipe.jinja2", {"request": request, "recipe": recipe})

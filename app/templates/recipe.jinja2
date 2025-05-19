@@ -1,7 +1,7 @@
 <!Doctype HTML>
 <head>
     <title>RecipeDB</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/app/static/style.css">
 </head>
 <body>
     <div class="recipe">
@@ -10,10 +10,10 @@
             <h2>by <i>{{ recipe.author }}</i></h2>
             <img src="/{{ recipe.img_path }}" alt="Recipe Image">
             <div>
-                <span><img src="/static/icons/portions.svg" alt="Portions icon">{{ recipe.portions }}</span>
-                <span><img src="/static/icons/prep_time.svg" alt="Preparation time icon"> {{ recipe.prep_time }} min.</span>
-                <span><img src="/static/icons/cook_time.svg" alt="Cook time icon"> {{ recipe.cook_time }} min.</span>
-                <span><img src="/static/icons/total_time.svg" alt="Total time icon"> {{ recipe.prep_time+recipe.cook_time }} min.</span>
+                <span><img src="/app/static/icons/portions.svg" alt="Portions icon">{{ recipe.portions }}</span>
+                <span><img src="/app/static/icons/prep_time.svg" alt="Preparation time icon"> {{ recipe.prep_time }} min.</span>
+                <span><img src="/app/static/icons/cook_time.svg" alt="Cook time icon"> {{ recipe.cook_time }} min.</span>
+                <span><img src="/app/static/icons/total_time.svg" alt="Total time icon"> {{ recipe.prep_time+recipe.cook_time }} min.</span>
             </div>
 
         </div>
