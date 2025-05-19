@@ -10,9 +10,8 @@ jobs:
         steps:
             - uses: actions/checkout@v4
               with:
-                ref: main
-                fetch-depth: 1
-                persist-credentials: true
+                fetch-depth: 0
+                persist-credentials: false
             - name: Install Doxygen
               run: |
                    wget https://www.doxygen.nl/files/doxygen-1.13.2.linux.bin.tar.gz
