@@ -30,7 +30,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
-        file: Dockerfile
+        file: dockerfile
         push: true
         platforms: linux/amd64,linux/arm64
         tags: ${{ secrets.docker_username }}/recipe-app:latest,${{ secrets.docker_username }}/recipe-app:${{ steps.get_latest_release.outputs.release }}
