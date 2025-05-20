@@ -49,7 +49,7 @@ async def render_home(request: Request):
     payload = verify_access_token(request)
 
     if not payload:
-        return RedirectResponse(url="/login")
+        return templates.TemplateResponse("login.jinja2", {"request": request})
 
     username = payload["sub"]
     return templates.TemplateResponse("home.jinja2", {"request": request, "username": username})
