@@ -214,7 +214,7 @@ async def add_recipe(
     prep_time: int = Form(...),
     cook_time: int = Form(...),
     description: str = Form(...),
-    is_public: bool = Form(False),
+    is_public: str = Form(...),
 ):
     """
        Handles the POST request for adding a new recipe.
@@ -227,12 +227,14 @@ async def add_recipe(
            prep_time (int): The preparation time in minutes.
            cook_time (int): The cooking time in minutes.
            description (str): A description or instructions for the recipe.
+           is_public (str): Whether the recipe is public or not.
 
        Returns:
            TemplateResponse:
                - Renders the recipe page if the recipe is successfully created.
                - Renders the forbidden page if the user is not authenticated.
                - Renders the recipe creation page with errors if the image upload fails.
+
        """
     token = verify_access_token(request)
 
@@ -251,6 +253,10 @@ async def add_recipe(
         if path is None:
             errors = ["Invalid image file or file exceeds 10MB"]
             return templates.TemplateResponse("createRecipe.jinja2", {"request": request, "errors": errors})
+        if is_public == "public":
+            is_public = True
+        else:
+            is_public = False
 
         recipe = Recipe(
             title=title,
