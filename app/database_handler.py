@@ -11,7 +11,7 @@ ENGINE = None
 def startup():
     """Initializes the database connection and creates tables if they don't exist."""
     global ENGINE
-    ENGINE = create_engine("sqlite:///database.sqlite")
+    ENGINE = create_engine("sqlite:///data/database1.sqlite")
     SQLModel.metadata.create_all(ENGINE)
 
 

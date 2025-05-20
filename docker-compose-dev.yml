@@ -1,0 +1,11 @@
+services:
+  recipe-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/images:/app/static/recipe_images
+      - ./data/db:/app/data
+    restart: "no"

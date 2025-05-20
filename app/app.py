@@ -31,10 +31,10 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-@app.get("/index.html")
-@app.get("/content.php")
-@app.get("/login.php")
-@app.get("/register.php")
+@app.get("/recipes/index.html")
+@app.get("/recipes/content.php")
+@app.get("/recipes/login.php")
+@app.get("/recipes/register.php")
 async def render_home(request: Request):
     """
     Handles POST requests to the home page.
