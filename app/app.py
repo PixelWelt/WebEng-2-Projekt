@@ -63,7 +63,8 @@ async def home(request: Request):
         return RedirectResponse(url="/forbidden")
 
     username = payload["sub"]
-    return templates.TemplateResponse("home.jinja2", {"request": request, "username": username})
+    recipes = database_handler.get_recipes()
+    return templates.TemplateResponse("home.jinja2", {"request": request, "username": username, "recipes": recipes})
 
 
 @app.get("/forbidden")
@@ -292,7 +293,7 @@ async def view_recipe(request: Request, recipe_id: int):
         TemplateResponse: Renders the recipe page if the recipe is found.
         TemplateResponse: Returns an 404 page if the recipe is not found.
     """
-    recipe = database_handler.retrieve_recipe(recipe_id)
+    recipe = database_handler.get_recipe(recipe_id)
     if not verify_access_token(request):
         return RedirectResponse(url="/forbidden")
     if recipe is None:

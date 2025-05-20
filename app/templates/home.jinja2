@@ -21,16 +21,20 @@
     <div class="home-main">
         <h2>Your Recipes</h2>
         <div class="recipe-list">
-            {% for recipe in recipes %}
-                <div class="recipe-card">
-                    <img src="{{ recipe.img_path }}" alt="{{ recipe.title }}">
-                    <h3>{{ recipe.title }}</h3>
-                    <p>Portions: {{ recipe.portions }}</p>
-                    <p>Prep Time: {{ recipe.prep_time }} minutes</p>
-                    <p>Cook Time: {{ recipe.cook_time }} minutes</p>
-                    <a href="/recipe/{{ recipe.id }}">View Recipe</a>
-                </div>
-            {% endfor %}
+            {% if recipes.length == 0 %}
+                <p>No recipes found. Start creating your own!</p>
+            {% else %}
+                {% for recipe in recipes %}
+                    <div class="recipe-card">
+                        <img src="{{ recipe[0].img_path }}" alt="{{ recipe[0].title }}">
+                        <h3>{{ recipe[0].title}}</h3>
+                        <p>Portions: {{ recipe[0].portions }}</p>
+                        <p>Prep Time: {{ recipe[0].prep_time }} minutes</p>
+                        <p>Cook Time: {{ recipe[0].cook_time }} minutes</p>
+                        <a href="/recipe/view/{{ recipe[0].id }}">View Recipe</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 

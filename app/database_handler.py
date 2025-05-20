@@ -84,7 +84,7 @@ def create_recipe(recipe_to_create: Recipe):
         session.commit()
 
 
-def retrieve_recipe(recipe_id: int) -> Recipe:
+def get_recipe(recipe_id: int) -> Recipe:
     """Fetches a recipe from the database by its ID.
 
     Args:
@@ -97,3 +97,18 @@ def retrieve_recipe(recipe_id: int) -> Recipe:
         query = select(Recipe).where(Recipe.id == recipe_id)
         fetched_recipe = session.exec(query).first()
         return fetched_recipe[0] if fetched_recipe else None
+
+def get_recipes(start=0, amount=10) -> list[Recipe]:
+    """Fetches recipes from the database with pagination.
+
+    Args:
+        start (int): The starting index.
+        amount (int): The number of recipes to fetch.
+
+    Returns:
+        list[Recipe]: A list of recipe objects.
+    """
+    with Session(ENGINE) as session:
+        query = select(Recipe).offset(start).limit(amount)
+        fetched_recipes = session.exec(query).all()
+        return fetched_recipes
