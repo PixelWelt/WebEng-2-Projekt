@@ -19,18 +19,10 @@ jobs:
       with:
         username: ${{ secrets.docker_username }}
         password: ${{ secrets.docker_password }}
-
-    - name: Get latest release tag
-      id: get_latest_release
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        owner: PixelWelt
-        repo: WebEng-2-Projekt
-
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
         file: dockerfile
         push: true
         platforms: linux/amd64,linux/arm64
-        tags: ${{ secrets.docker_username }}/recipe-app:latest,${{ secrets.docker_username }}/recipe-app:${{ steps.get_latest_release.outputs.release }}
+        tags: ${{ secrets.docker_username }}/recipe-app:latest,${{ secrets.docker_username }}/recipe-app:${{ github.sha }}
