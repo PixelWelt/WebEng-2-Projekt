@@ -68,9 +68,9 @@ def does_username_exist(username: str) -> bool:
         return fetched_user is not None
 
 
-# endregion
+#endregion user
 
-# region recipe
+#region recipe
 
 
 def create_recipe(recipe_to_create: Recipe):
@@ -112,3 +112,5 @@ def get_recipes(start=0, amount=10) -> list[Recipe]:
         query = select(Recipe).offset(start).limit(amount)
         fetched_recipes = session.exec(query).all()
         return fetched_recipes
+
+#endregion

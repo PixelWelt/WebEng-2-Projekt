@@ -43,8 +43,8 @@ async def render_home(request: Request):
         request (Request): The incoming HTTP request.
 
     Returns:
-        RedirectResponse: Redirects to the home page if the access token is valid.
-        RedirectResponse: Redirects to the forbidden page if the access token is invalid.
+        TemplateResponse: Renders the home page if the user is authenticated.
+            If the user is not authenticated, it redirects to the login page.
     """
     payload = verify_access_token(request)
 
@@ -69,11 +69,23 @@ async def home(request: Request):
 
 @app.get("/forbidden")
 async def forbidden(request: Request):
+    """
+    Renders a forbidden page when the user is not authenticated.
+    Returns:
+        TemplateResponse: responds with a forbidden page
+    """
+
     return templates.TemplateResponse("forbidden.jinja2", {"request": request})
 
 
 @app.get("/teapot")
 async def teapot(request: Request):
+    """
+    Handles the GET request for the teapot endpoint.
+    Returns:
+        dict: A dictionary indicating that the server is a teapot.
+            - {"Error": "418 I'm a teapot"}.
+    """
     return {"Error": "418 I'm a teapot"}
 
 @app.post("/login")
