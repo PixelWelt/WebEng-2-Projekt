@@ -109,25 +109,39 @@ $(function(){initNavTree('auth__handler_8py_source.html',''); initResizable(true
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
 <div class="foldopen" id="foldopen00007" data-start="" data-end="">
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="namespaceauth__handler.html#ab9d1d36a2697ca4268e81cef34f6ef51">    7</a></span><span class="keyword">def </span><a class="code hl_function" href="namespaceauth__handler.html#ab9d1d36a2697ca4268e81cef34f6ef51">create_access_token</a>(data: dict, expires_delta: timedelta = timedelta(hours=1)):</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    to_encode = data.copy()</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    expire = datetime.utcnow() + expires_delta</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    to_encode.update({<span class="stringliteral">&quot;exp&quot;</span>: expire})</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keywordflow">return</span> jwt.encode(to_encode, SECRET_KEY, algorithm=<span class="stringliteral">&quot;HS256&quot;</span>)</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <span class="stringliteral">&quot;&quot;&quot;Creates a JWT access token with an expiration time.</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="stringliteral">    args:</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="stringliteral">        data (dict): The data to encode in the token.</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="stringliteral">        expires_delta (timedelta): The duration after which the token expires.</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="stringliteral">    returns:</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="stringliteral">        str: The encoded JWT token.</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    to_encode = data.copy()</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    expire = datetime.utcnow() + expires_delta</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    to_encode.update({<span class="stringliteral">&quot;exp&quot;</span>: expire})</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordflow">return</span> jwt.encode(to_encode, SECRET_KEY, algorithm=<span class="stringliteral">&quot;HS256&quot;</span>)</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 </div>
-<div class="foldopen" id="foldopen00013" data-start="" data-end="">
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="namespaceauth__handler.html#a9852a7f7fe34285efb1b0dcdaadd8aed">   13</a></span><span class="keyword">def </span><a class="code hl_function" href="namespaceauth__handler.html#a9852a7f7fe34285efb1b0dcdaadd8aed">verify_access_token</a>(request: Request):</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    token = request.cookies.get(<span class="stringliteral">&quot;access_token&quot;</span>)</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordflow">try</span>:</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        payload = jwt.decode(token, SECRET_KEY, algorithms=[<span class="stringliteral">&quot;HS256&quot;</span>])</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordflow">return</span> payload</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordflow">except</span> jwt.ExpiredSignatureError:</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordflow">except</span> jwt.InvalidTokenError:</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="foldopen" id="foldopen00020" data-start="" data-end="">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="namespaceauth__handler.html#a9852a7f7fe34285efb1b0dcdaadd8aed">   20</a></span><span class="keyword">def </span><a class="code hl_function" href="namespaceauth__handler.html#a9852a7f7fe34285efb1b0dcdaadd8aed">verify_access_token</a>(request: Request):</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="stringliteral">    Verifies the JWT access token from the request cookies.</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="stringliteral">    args:</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="stringliteral">        request (Request): The FastAPI request object containing cookies.</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="stringliteral">    returns:</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="stringliteral">        dict or None: The decoded token payload if valid, None if invalid or expired.</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    token = request.cookies.get(<span class="stringliteral">&quot;access_token&quot;</span>)</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        payload = jwt.decode(token, SECRET_KEY, algorithms=[<span class="stringliteral">&quot;HS256&quot;</span>])</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">return</span> payload</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">except</span> jwt.ExpiredSignatureError:</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">except</span> jwt.InvalidTokenError:</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
 </div>
-<div class="ttc" id="anamespaceauth__handler_html_a9852a7f7fe34285efb1b0dcdaadd8aed"><div class="ttname"><a href="namespaceauth__handler.html#a9852a7f7fe34285efb1b0dcdaadd8aed">auth_handler.verify_access_token</a></div><div class="ttdeci">verify_access_token(Request request)</div><div class="ttdef"><b>Definition</b> <a href="#l00013">auth_handler.py:13</a></div></div>
+<div class="ttc" id="anamespaceauth__handler_html_a9852a7f7fe34285efb1b0dcdaadd8aed"><div class="ttname"><a href="namespaceauth__handler.html#a9852a7f7fe34285efb1b0dcdaadd8aed">auth_handler.verify_access_token</a></div><div class="ttdeci">verify_access_token(Request request)</div><div class="ttdef"><b>Definition</b> <a href="#l00020">auth_handler.py:20</a></div></div>
 <div class="ttc" id="anamespaceauth__handler_html_ab9d1d36a2697ca4268e81cef34f6ef51"><div class="ttname"><a href="namespaceauth__handler.html#ab9d1d36a2697ca4268e81cef34f6ef51">auth_handler.create_access_token</a></div><div class="ttdeci">create_access_token(dict data, timedelta expires_delta=timedelta(hours=1))</div><div class="ttdef"><b>Definition</b> <a href="#l00007">auth_handler.py:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
