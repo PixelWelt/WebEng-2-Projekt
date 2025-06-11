@@ -136,26 +136,26 @@ Functions</h2></td></tr>
     Returns:
         list: A list of dictionaries, each containing the name and amount of an ingredient.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="form__helper_8py_source.html#l00009">9</a> of file <a class="el" href="form__helper_8py_source.html">form_helper.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    9</span><span class="keyword">def </span>explode_ingredient_list(data: dict) -&gt; list:</div>
-<div class="line"><span class="lineno">   10</span>    <span class="stringliteral">&quot;&quot;&quot;Extracts a list of ingredients from form data.</span></div>
-<div class="line"><span class="lineno">   11</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   12</span><span class="stringliteral">    Args:</span></div>
-<div class="line"><span class="lineno">   13</span><span class="stringliteral">        data (dict): The form data containing ingredient names and amounts.</span></div>
-<div class="line"><span class="lineno">   14</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   15</span><span class="stringliteral">    Returns:</span></div>
-<div class="line"><span class="lineno">   16</span><span class="stringliteral">        list: A list of dictionaries, each containing the name and amount of an ingredient.</span></div>
-<div class="line"><span class="lineno">   17</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   18</span>    ingredients = []</div>
-<div class="line"><span class="lineno">   19</span>    index = 0</div>
-<div class="line"><span class="lineno">   20</span>    <span class="keywordflow">while</span> f<span class="stringliteral">&quot;ingredientName[{index}]&quot;</span> <span class="keywordflow">in</span> data <span class="keywordflow">and</span> f<span class="stringliteral">&quot;ingredientAmount[{index}]&quot;</span> <span class="keywordflow">in</span> data:</div>
-<div class="line"><span class="lineno">   21</span>        ingredients.append({</div>
-<div class="line"><span class="lineno">   22</span>            <span class="stringliteral">&quot;name&quot;</span>: data[f<span class="stringliteral">&quot;ingredientName[{index}]&quot;</span>],</div>
-<div class="line"><span class="lineno">   23</span>            <span class="stringliteral">&quot;amount&quot;</span>: data[f<span class="stringliteral">&quot;ingredientAmount[{index}]&quot;</span>]</div>
-<div class="line"><span class="lineno">   24</span>        })</div>
-<div class="line"><span class="lineno">   25</span>        index += 1</div>
-<div class="line"><span class="lineno">   26</span>    <span class="keywordflow">return</span> ingredients</div>
-<div class="line"><span class="lineno">   27</span> </div>
+<p class="definition">Definition at line <a class="el" href="form__helper_8py_source.html#l00010">10</a> of file <a class="el" href="form__helper_8py_source.html">form_helper.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   10</span><span class="keyword">def </span>explode_ingredient_list(data: dict) -&gt; list:</div>
+<div class="line"><span class="lineno">   11</span>    <span class="stringliteral">&quot;&quot;&quot;Extracts a list of ingredients from form data.</span></div>
+<div class="line"><span class="lineno">   12</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   13</span><span class="stringliteral">    Args:</span></div>
+<div class="line"><span class="lineno">   14</span><span class="stringliteral">        data (dict): The form data containing ingredient names and amounts.</span></div>
+<div class="line"><span class="lineno">   15</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   16</span><span class="stringliteral">    Returns:</span></div>
+<div class="line"><span class="lineno">   17</span><span class="stringliteral">        list: A list of dictionaries, each containing the name and amount of an ingredient.</span></div>
+<div class="line"><span class="lineno">   18</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   19</span>    ingredients = []</div>
+<div class="line"><span class="lineno">   20</span>    index = 0</div>
+<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">while</span> f<span class="stringliteral">&quot;ingredientName[{index}]&quot;</span> <span class="keywordflow">in</span> data <span class="keywordflow">and</span> f<span class="stringliteral">&quot;ingredientAmount[{index}]&quot;</span> <span class="keywordflow">in</span> data:</div>
+<div class="line"><span class="lineno">   22</span>        ingredients.append({</div>
+<div class="line"><span class="lineno">   23</span>            <span class="stringliteral">&quot;name&quot;</span>: data[f<span class="stringliteral">&quot;ingredientName[{index}]&quot;</span>],</div>
+<div class="line"><span class="lineno">   24</span>            <span class="stringliteral">&quot;amount&quot;</span>: data[f<span class="stringliteral">&quot;ingredientAmount[{index}]&quot;</span>]</div>
+<div class="line"><span class="lineno">   25</span>        })</div>
+<div class="line"><span class="lineno">   26</span>        index += 1</div>
+<div class="line"><span class="lineno">   27</span>    <span class="keywordflow">return</span> ingredients</div>
+<div class="line"><span class="lineno">   28</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -186,24 +186,24 @@ Functions</h2></td></tr>
     Returns:
         list: A list of dictionaries containing the exploded data.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="form__helper_8py_source.html#l00028">28</a> of file <a class="el" href="form__helper_8py_source.html">form_helper.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   28</span><span class="keyword">def </span>get_tags(data: dict, key: str) -&gt; list:</div>
-<div class="line"><span class="lineno">   29</span>    <span class="stringliteral">&quot;&quot;&quot;Explodes a form list into a list of dictionaries.</span></div>
-<div class="line"><span class="lineno">   30</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   31</span><span class="stringliteral">    Args:</span></div>
-<div class="line"><span class="lineno">   32</span><span class="stringliteral">        data (dict): The form data.</span></div>
-<div class="line"><span class="lineno">   33</span><span class="stringliteral">        key (str): The key to explode.</span></div>
-<div class="line"><span class="lineno">   34</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   35</span><span class="stringliteral">    Returns:</span></div>
-<div class="line"><span class="lineno">   36</span><span class="stringliteral">        list: A list of dictionaries containing the exploded data.</span></div>
-<div class="line"><span class="lineno">   37</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   38</span>    exploded_list = []</div>
-<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, 10):</div>
-<div class="line"><span class="lineno">   40</span>        print( f<span class="stringliteral">&quot;{key}[{i}]&quot;</span>)</div>
-<div class="line"><span class="lineno">   41</span>        <span class="keywordflow">if</span> f<span class="stringliteral">&quot;{key}[{i}]&quot;</span> <span class="keywordflow">in</span> data:</div>
-<div class="line"><span class="lineno">   42</span>            exploded_list.append(data[f<span class="stringliteral">&quot;{key}[{i}]&quot;</span>])</div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">return</span> exploded_list</div>
-<div class="line"><span class="lineno">   44</span> </div>
+<p class="definition">Definition at line <a class="el" href="form__helper_8py_source.html#l00029">29</a> of file <a class="el" href="form__helper_8py_source.html">form_helper.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span><span class="keyword">def </span>get_tags(data: dict, key: str) -&gt; list:</div>
+<div class="line"><span class="lineno">   30</span>    <span class="stringliteral">&quot;&quot;&quot;Explodes a form list into a list of dictionaries.</span></div>
+<div class="line"><span class="lineno">   31</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   32</span><span class="stringliteral">    Args:</span></div>
+<div class="line"><span class="lineno">   33</span><span class="stringliteral">        data (dict): The form data.</span></div>
+<div class="line"><span class="lineno">   34</span><span class="stringliteral">        key (str): The key to explode.</span></div>
+<div class="line"><span class="lineno">   35</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   36</span><span class="stringliteral">    Returns:</span></div>
+<div class="line"><span class="lineno">   37</span><span class="stringliteral">        list: A list of dictionaries containing the exploded data.</span></div>
+<div class="line"><span class="lineno">   38</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   39</span>    exploded_list = []</div>
+<div class="line"><span class="lineno">   40</span>    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, 10):</div>
+<div class="line"><span class="lineno">   41</span>        print( f<span class="stringliteral">&quot;{key}[{i}]&quot;</span>)</div>
+<div class="line"><span class="lineno">   42</span>        <span class="keywordflow">if</span> f<span class="stringliteral">&quot;{key}[{i}]&quot;</span> <span class="keywordflow">in</span> data:</div>
+<div class="line"><span class="lineno">   43</span>            exploded_list.append(data[f<span class="stringliteral">&quot;{key}[{i}]&quot;</span>])</div>
+<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">return</span> exploded_list</div>
+<div class="line"><span class="lineno">   45</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -234,32 +234,35 @@ Functions</h2></td></tr>
     Returns:
         str: The file path of the uploaded image.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="form__helper_8py_source.html#l00045">45</a> of file <a class="el" href="form__helper_8py_source.html">form_helper.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span><span class="keyword">def </span>upload_recipe_img(img_path: UploadFile, recipe_name: str) -&gt; str | <span class="keywordtype">None</span>:</div>
-<div class="line"><span class="lineno">   46</span>    <span class="stringliteral">&quot;&quot;&quot;Uploads a recipe image to the server.</span></div>
-<div class="line"><span class="lineno">   47</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   48</span><span class="stringliteral">    Args:</span></div>
-<div class="line"><span class="lineno">   49</span><span class="stringliteral">        img_path (UploadFile): The image file to upload.</span></div>
-<div class="line"><span class="lineno">   50</span><span class="stringliteral">        recipe_name (str): The name of the recipe.</span></div>
-<div class="line"><span class="lineno">   51</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   52</span><span class="stringliteral">    Returns:</span></div>
-<div class="line"><span class="lineno">   53</span><span class="stringliteral">        str: The file path of the uploaded image.</span></div>
-<div class="line"><span class="lineno">   54</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">try</span>:</div>
-<div class="line"><span class="lineno">   56</span>        img_path.filename = img_path.filename.replace(<span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;_&quot;</span>)</div>
-<div class="line"><span class="lineno">   57</span>        file_location = f<span class="stringliteral">&quot;static/recipe_images/{recipe_name}-{uuid.uuid4()}.webp&quot;</span></div>
-<div class="line"><span class="lineno">   58</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> img_path.content_type.startswith(<span class="stringliteral">&quot;image/&quot;</span>):</div>
-<div class="line"><span class="lineno">   59</span>            <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
-<div class="line"><span class="lineno">   60</span>        <span class="keywordflow">if</span> img_path.size &gt; 10 * 1024 * 1024:  <span class="comment"># Check if file size exceeds 10MB</span></div>
-<div class="line"><span class="lineno">   61</span>            <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
-<div class="line"><span class="lineno">   62</span>        image = Image.open(img_path.file)</div>
-<div class="line"><span class="lineno">   63</span>        image = image.convert(<span class="stringliteral">&quot;RGB&quot;</span>)</div>
-<div class="line"><span class="lineno">   64</span>        image.save(file_location, <span class="stringliteral">&quot;webp&quot;</span>, optimize=<span class="keyword">True</span>, quality=10)</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>        <span class="keywordflow">return</span> file_location</div>
-<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
-<div class="line"><span class="lineno">   68</span>        print(f<span class="stringliteral">&quot;Error uploading image: {e}&quot;</span>)</div>
-<div class="line"><span class="lineno">   69</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<p class="definition">Definition at line <a class="el" href="form__helper_8py_source.html#l00046">46</a> of file <a class="el" href="form__helper_8py_source.html">form_helper.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   46</span><span class="keyword">def </span>upload_recipe_img(img_path: UploadFile, recipe_name: str) -&gt; str | <span class="keywordtype">None</span>:</div>
+<div class="line"><span class="lineno">   47</span>    <span class="stringliteral">&quot;&quot;&quot;Uploads a recipe image to the server.</span></div>
+<div class="line"><span class="lineno">   48</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   49</span><span class="stringliteral">    Args:</span></div>
+<div class="line"><span class="lineno">   50</span><span class="stringliteral">        img_path (UploadFile): The image file to upload.</span></div>
+<div class="line"><span class="lineno">   51</span><span class="stringliteral">        recipe_name (str): The name of the recipe.</span></div>
+<div class="line"><span class="lineno">   52</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   53</span><span class="stringliteral">    Returns:</span></div>
+<div class="line"><span class="lineno">   54</span><span class="stringliteral">        str: The file path of the uploaded image.</span></div>
+<div class="line"><span class="lineno">   55</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">   57</span>        img_path.filename = img_path.filename.replace(<span class="stringliteral">&quot; &quot;</span>, <span class="stringliteral">&quot;_&quot;</span>)</div>
+<div class="line"><span class="lineno">   58</span>        file_location = f<span class="stringliteral">&quot;static/recipe_images/{recipe_name}-{uuid.uuid4()}.webp&quot;</span></div>
+<div class="line"><span class="lineno">   59</span>        folder = os.path.dirname(file_location)</div>
+<div class="line"><span class="lineno">   60</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.exists(folder):</div>
+<div class="line"><span class="lineno">   61</span>            os.makedirs(folder, exist_ok=<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">   62</span>        <span class="keywordflow">if</span> <span class="keywordflow">not</span> img_path.content_type.startswith(<span class="stringliteral">&quot;image/&quot;</span>):</div>
+<div class="line"><span class="lineno">   63</span>            <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">if</span> img_path.size &gt; 10 * 1024 * 1024:  <span class="comment"># Check if file size exceeds 10MB</span></div>
+<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno">   66</span>        image = Image.open(img_path.file)</div>
+<div class="line"><span class="lineno">   67</span>        image = image.convert(<span class="stringliteral">&quot;RGB&quot;</span>)</div>
+<div class="line"><span class="lineno">   68</span>        image.save(file_location, <span class="stringliteral">&quot;webp&quot;</span>, optimize=<span class="keyword">True</span>, quality=10)</div>
+<div class="line"><span class="lineno">   69</span> </div>
+<div class="line"><span class="lineno">   70</span>        <span class="keywordflow">return</span> file_location</div>
+<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">except</span> Exception <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">   72</span>        print(f<span class="stringliteral">&quot;Error uploading image: {e}&quot;</span>)</div>
+<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
 </div><!-- fragment -->
 </div>
 </div>

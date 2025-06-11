@@ -1,7 +1,7 @@
 var app_8py =
 [
     [ "app.add_recipe", "namespaceapp.html#a6312090098e19952fcd677b7742342e0", null ],
-    [ "app.add_recipe", "namespaceapp.html#a82a252e3ada2bad147ceddcc2637736b", null ],
+    [ "app.add_recipe", "namespaceapp.html#a30b03f8907d00afaa20fa91ddf738713", null ],
     [ "app.forbidden", "namespaceapp.html#a95cb00ef3fe1f7045913a4d187cb746b", null ],
     [ "app.get_login_state", "namespaceapp.html#a4e529556f4b70838fce2cef9f012c31f", null ],
     [ "app.home", "namespaceapp.html#aa1fbafee338606ae0108fa13446c7fd2", null ],
