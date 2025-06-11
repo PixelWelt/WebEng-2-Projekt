@@ -102,6 +102,7 @@ dialog {
     border-radius: 20px;
     padding: 2em;
     background-color: var(--color-emerald-50);
+    z-index: 1;
 }
 dialog li{
     list-style: none;

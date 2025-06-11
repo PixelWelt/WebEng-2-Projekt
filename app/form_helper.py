@@ -6,6 +6,7 @@ from PIL import Image
 from pathlib import Path
 
 
+
 def explode_ingredient_list(data: dict) -> list:
 	"""Extracts a list of ingredients from form data.
 
@@ -55,6 +56,9 @@ def upload_recipe_img(img_path: UploadFile, recipe_name: str) -> str | None:
 	try:
 		img_path.filename = img_path.filename.replace(" ", "_")
 		file_location = f"static/recipe_images/{recipe_name}-{uuid.uuid4()}.webp"
+		folder = os.path.dirname(file_location)
+		if not os.path.exists(folder):
+			os.makedirs(folder, exist_ok=True)
 		if not img_path.content_type.startswith("image/"):
 			return None
 		if img_path.size > 10 * 1024 * 1024:  # Check if file size exceeds 10MB

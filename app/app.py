@@ -207,7 +207,8 @@ async def add_recipe(request: Request):
      Returns:
          TemplateResponse:
              - Renders the recipe creation page if the user is authenticated.
-             - Renders the forbidden page if the user is not authenticated.
+         RedirectResponse:
+             - Redirects the forbidden page if the user is not authenticated.
      """
     if verify_access_token(request):
         return templates.TemplateResponse(
@@ -227,7 +228,7 @@ async def add_recipe(
     prep_time: int = Form(...),
     cook_time: int = Form(...),
     description: str = Form(...),
-    is_public: str = Form(...),
+    is_public: str = Form(default=""),
 ):
     """
        Handles the POST request for adding a new recipe.
@@ -286,7 +287,7 @@ async def add_recipe(
         )
         print(data)
         database_handler.create_recipe(recipe)
-        return {200: "Recipe created successfully"}
+        return RedirectResponse(url="/")
     else:
         return RedirectResponse(url="/forbidden")
 
@@ -305,10 +306,14 @@ async def view_recipe(request: Request, recipe_id: int):
         TemplateResponse: Renders the recipe page if the recipe is found.
         TemplateResponse: Returns an 404 page if the recipe is not found.
     """
+    token = verify_access_token(request)
+    author = token.get("sub")
     recipe = database_handler.get_recipe(recipe_id)
-    if not verify_access_token(request):
+    if not token:
         return RedirectResponse(url="/forbidden")
     if recipe is None:
         return {"Error": "Recipe not found"}
+    if recipe.is_public is False and recipe.author != author:
+        return RedirectResponse(url="/forbidden")
     return templates.TemplateResponse("recipe.jinja2", {"request": request, "recipe": recipe})
 

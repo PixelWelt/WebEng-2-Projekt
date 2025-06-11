@@ -4,6 +4,7 @@ This module handles all database operations for the application.
 from sqlalchemy import create_engine, select
 from sqlmodel import Session, SQLModel
 from models import User, Recipe
+import os
 
 ENGINE = None
 
@@ -11,6 +12,7 @@ ENGINE = None
 def startup():
     """Initializes the database connection and creates tables if they don't exist."""
     global ENGINE
+    os.makedirs("data", exist_ok=True)
     ENGINE = create_engine("sqlite:///data/database1.sqlite")
     SQLModel.metadata.create_all(ENGINE)
 
