@@ -1,15 +1,14 @@
-<!Doctype html>
+<!DOCTYPE html>
+<html>
 <head>
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css"/>
-
 </head>
 
 <body>
     <header>
         <h1>Welcome to the Recipe App!</h1>
         <nav>
-
             <div class="nav">
                 <a href="/recipe/add/">Create Recipe</a>
                 <a href="/logout" id="logout">Logout</a>
@@ -19,9 +18,10 @@
             <p>Hello <strong>{{ username }}</strong>!</p>
         </div>
     </header>
-    <div class="home-main">
-        <h2>Your Recipes</h2>
-        <div class="recipe-list">
+
+    <div class="main-content">
+        <aside class="recipe-sidebar">
+            <h2>Your Recipes</h2>
             {% if recipes == [] %}
                 <p>No recipes found. Start creating your own!</p>
             {% else %}
@@ -29,22 +29,26 @@
                     {% if recipe[0].is_public or recipe[0].author == username %}
                         <div class="recipe-card">
                             <img src="{{ recipe[0].img_path }}" alt="{{ recipe[0].title }}">
-                            <h3>{{ recipe[0].title}}</h3>
-                            <p>Portions: {{ recipe[0].portions }}</p>
-                            <p>Prep Time: {{ recipe[0].prep_time }} minutes</p>
-                            <p>Cook Time: {{ recipe[0].cook_time }} minutes</p>
-                            <button class="show-recipe" onclick=getRecipe({{ recipe[0].id }})>Show Recipe</button>
+                            <div class="recipe-details">
+                                <h3>{{ recipe[0].title }}</h3>
+                                <div class="recipe-info">
+                                    <span>Portions: {{ recipe[0].portions }}</span>
+                                    <span>Prep Time: {{ recipe[0].prep_time }} minutes</span>
+                                    <span>Cook Time: {{ recipe[0].cook_time }} minutes</span>
+                                </div>
+                                <button class="show-recipe" onclick="getRecipe({{ recipe[0].id }})">Show Recipe</button>
+                            </div>
                         </div>
                     {% endif %}
                 {% endfor %}
-                        <div id="recipe-area">
-                            <iframe id="recipe-viewer">
-
-                            </iframe>
-                        </div>
             {% endif %}
-        </div>
+        </aside>
 
+        <div class="viewer-area">
+            <iframe id="recipe-viewer"></iframe>
+        </div>
     </div>
+
+    <script src="/static/js/recipe-manager.js"></script>
 </body>
-<script src="/static/js/recipe-manager.js"></script>
+</html>
