@@ -2,7 +2,7 @@ name: generate doxygen documentation
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
     build:
