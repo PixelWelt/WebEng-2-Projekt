@@ -4,6 +4,7 @@ This module handles all database operations for the application.
 from sqlalchemy import create_engine, select
 from sqlmodel import Session, SQLModel
 from models import User, Recipe
+from sqlalchemy.exc import SQLAlchemyError
 import os
 
 ENGINE = None
@@ -116,3 +117,39 @@ def get_recipes(start=0, amount=10) -> list[Recipe]:
         return fetched_recipes
 
 #endregion
+def delete_recipe(recipe_id):
+    """Deletes a recipe from the database by its recipe ID.
+
+    Args:
+        recipe_id (int): The ID of the recipe to delete.
+
+    Returns:
+        bool: True if the recipe was successfully deleted, otherwise False.
+    """
+    with Session(ENGINE) as session:
+        try:
+            from sqlalchemy import delete
+            query = delete(Recipe).where(Recipe.id == recipe_id)
+            result = session.exec(query)
+            session.commit()
+            return True
+        except SQLAlchemyError as e:
+            return False
+
+
+
+def update_recipe(recipe):
+    with Session(ENGINE) as session:
+        try:
+            db_recipe = session.get(Recipe, recipe.id)
+            if not db_recipe:
+                return False
+            for key, value in recipe.dict(exclude_unset=True).items():
+                setattr(db_recipe, key, value)
+            session.add(db_recipe)
+            session.commit()
+            print("Recipe updated successfully")
+            return True
+        except SQLAlchemyError as e:
+            print(e)
+            return False

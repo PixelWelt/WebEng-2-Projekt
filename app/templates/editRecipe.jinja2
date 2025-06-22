@@ -1,0 +1,112 @@
+<head>
+    <title>Edit Recipe</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+</head>
+<body>
+    {%  if error is defined %}
+         <dialog id="error" open>
+                <h2>Error</h2>
+                {% for error in errors %}
+                   <li>{{ error }}</li>
+                {% endfor %}
+                <button class='close' onclick='error.close()'>confirm</button>
+         </dialog>
+    {% endif %}
+    <main>
+        <form method="POST" action="/recipe/edit/{{ recipe.id }}" enctype="multipart/form-data" class="new-recipe" id="editRecipeForm">
+            <h1>Rezept bearbeiten</h1>
+            <label for="title">Recipe Name:</label>
+            <input type="text" id="title" name="title" value="{{ recipe.title }}" required>
+            <label class="file-upload">
+                <img src="/static/icons/upload.svg" alt="Upload Icon">
+                Replace Image
+                <input type="file" id="img_path" name="img_path" accept="image/*">
+            </label>
+
+            <label>
+                Portions:
+                <input type="number" name="portions" value="{{ recipe.portions }}">
+            </label>
+            <label>
+                Preparation Time:
+                <input type="number" name="prep_time" value="{{ recipe.prep_time }}">
+            </label>
+            <label>
+                Cooking Time:
+                <input type="number" name="cook_time" value="{{ recipe.cook_time }}">
+            </label>
+
+            <button type="button" id="addIngredientButton">+ Add Ingredient</button>
+            <fieldset id="ingredientsFieldset">
+                <legend>Ingredients</legend>
+                {% for ing in recipe.ingredients %}
+                <div class="ingredient">
+                    <label for="ingredientName">Ingredient Name:</label>
+                    <input type="text" name="ingredientName[{{ loop.index0 }}]" value="{{ ing.name }}" required>
+                    <label for="ingredientAmount">Amount:</label>
+                    <input type="text" name="ingredientAmount[{{ loop.index0 }}]" value="{{ ing.amount }}" required>
+                </div>
+                {% endfor %}
+            </fieldset>
+            <div id="editor"></div>
+            <input type="hidden" name="description" id="editorContent">
+            <fieldset class="tags">
+                <legend>Dietary Preferences</legend>
+                <label for="vegetarian">Vegetarian
+                    <input type="checkbox" value="vegetarian" name="tags[0]" id="vegetarian" {% if 'vegetarian' in recipe.tags %}checked{% endif %}>
+                </label>
+                <label for="vegan">Vegan
+                    <input type="checkbox" value="vegan" name="tags[1]" id="vegan" {% if 'vegan' in recipe.tags %}checked{% endif %}>
+                </label>
+                <label for="glutenFree">Gluten Free
+                    <input type="checkbox" value="glutenFree" name="tags[2]" id="glutenFree" {% if 'glutenFree' in recipe.tags %}checked{% endif %}>
+                </label>
+                <label for="dairyFree">Dairy Free
+                    <input type="checkbox" value="dairyFree" name="tags[3]" id="dairyFree" {% if 'dairyFree' in recipe.tags %}checked{% endif %}>
+                </label>
+                <label for="nutFree">Nut Free
+                    <input type="checkbox" value="nutFree" name="tags[4]" id="nutFree" {% if 'nutFree' in recipe.tags %}checked{% endif %}>
+                </label>
+            </fieldset>
+            <fieldset class="tags">
+                <legend>Cooking Method</legend>
+                <label for="baking">Baking
+                    <input type="checkbox" value="baking" name="tags[5]" id="baking" {% if 'baking' in recipe.tags %}checked{% endif %}>
+                </label>
+                <label for="grilling">Grilling
+                    <input type="checkbox" value="grilling" name="tags[6]" id="grilling" {% if 'grilling' in recipe.tags %}checked{% endif %}>
+                </label>
+                <label for="boiling">Boiling
+                    <input type="checkbox" value="boiling" name="tags[7]" id="boiling" {% if 'boiling' in recipe.tags %}checked{% endif %}>
+                </label>
+                <label for="frying">Frying
+                    <input type="checkbox" value="frying" name="tags[8]" id="frying" {% if 'frying' in recipe.tags %}checked{% endif %}>
+                </label>
+            </fieldset>
+            <fieldset class="tags">
+                <legend>Preparation Time</legend>
+                <label for="fastToMake">Fast to Make
+                    <input type="checkbox" value="fastToMake" name="tags[9]" id="fastToMake" {% if 'fastToMake' in recipe.tags %}checked{% endif %}>
+                </label>
+                <label for="slowCooked">Slow Cooked
+                    <input type="checkbox" value="slowCooked" name="tags[10]" id="slowCooked" {% if 'slowCooked' in recipe.tags %}checked{% endif %}>
+                </label>
+            </fieldset>
+            <label for="is_public">Rezept öffentlich stellen</label>
+            <input type="checkbox" name="is_public" id="is_public" value="public" {% if recipe.is_public %}checked{% endif %}>
+            <input type="submit" value="Update Recipe">
+        </form>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+</body>
+<script>
+    const quill = new Quill('#editor', {
+                theme: 'snow'
+            });
+    const recipeText = {{ recipe.text|tojson }};
+    document.getElementsByClassName("ql-editor")[0].innerHTML = recipeText;
+    document.querySelector("form").addEventListener("submit", function() {
+                document.getElementById("editorContent").value = document.getElementsByClassName("ql-editor")[0].innerHTML;
+            });
+</script>

@@ -9,9 +9,10 @@ from auth_handler import create_access_token, verify_access_token
 from models import User, Recipe
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Form, HTTPException, Response, File, UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.encoders import jsonable_encoder
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -317,3 +318,122 @@ async def view_recipe(request: Request, recipe_id: int):
         return RedirectResponse(url="/forbidden")
     return templates.TemplateResponse("recipe.jinja2", {"request": request, "recipe": recipe})
 
+@app.get("/api/recipe/get-partial/{recipe_id}")
+@limiter.limit("10/minute")
+@limiter.limit("10/minute")
+async def recipe_partial(request: Request, recipe_id: int):
+    token = verify_access_token(request)
+    if not token:
+        return {401, "Unauthorized"}
+    user = token.get("sub")
+    recipe = database_handler.get_recipe(recipe_id)
+    # maybe here it should just return an error, instead of 404 or 401 to keep data secret from unauthorized users.
+    # But I decided to keep it like this for now
+    if recipe is None:
+        return {404, "Recipe not found"}
+    if recipe.is_public is False and recipe.author != user:
+        return {401, "Unauthorized"}
+    return templates.TemplateResponse("recipePartial.jinja2", {"request": request, "recipe": recipe, "user": user})
+
+@app.get("/api/recipe/get/{recipe_id}")
+async def get_recipe(request: Request, recipe_id: int):
+    token = verify_access_token(request)
+    if not token:
+        return {401, "Unauthorized"}
+    user = token.get("sub")
+    recipe = database_handler.get_recipe(recipe_id)
+    if recipe is None:
+        return {404, "Recipe not found"}
+    if recipe.is_public is False and recipe.author != user:
+        return {401, "Unauthorized"}
+    return JSONResponse(status_code=200, content={"recipe": jsonable_encoder(recipe)})
+
+@app.delete("/api/recipe/delete/{recipe_id}")
+@limiter.limit("5/minute")
+async def delete_recipe(request: Request, recipe_id: int):
+    token = verify_access_token(request)
+    if not token:
+        return {401, "Unauthorized"}
+    user = token.get("sub")
+    recipe = database_handler.get_recipe(recipe_id)
+    if recipe is None:
+        return {404, "Recipe not found"}
+    if recipe.author != user:
+        return {401, "Unauthorized"}
+    database_handler.delete_recipe(recipe_id)
+    return {200, "Recipe deleted successfully"}
+
+@app.get("/recipe/edit/{recipe_id}")
+@limiter.limit("5/minute")
+async def edit_recipe(request: Request, recipe_id: int):
+    token = verify_access_token(request)
+    if not token:
+        return RedirectResponse(url="/forbidden")
+
+    recipe = database_handler.get_recipe(recipe_id)
+    if not recipe:
+        return {"Error": "Recipe not found"}
+    if recipe.author != token.get("sub"):
+        return RedirectResponse(url="/forbidden")
+
+    return templates.TemplateResponse("editRecipe.jinja2", {"request": request, "recipe": recipe})
+
+@app.post("/recipe/edit/{recipe_id}")
+@limiter.limit("10/minute")
+async def edit_recipe(request: Request,
+                      recipe_id: int,
+                      title: str = Form(...),
+                      img_path: UploadFile = File(...),
+                      portions: int = Form(...),
+                      prep_time: int = Form(...),
+                      cook_time: int = Form(...),
+                      description: str = Form(...),
+                      is_public: str = Form(default="")):
+    token = verify_access_token(request)
+
+    if token:
+        user = token.get("sub")
+        user_id = database_handler.get_user(user).id
+        form_data = await request.form()
+        # Extract the form data
+        data = {key: value for key, value in form_data.items()}
+        # Extract the ingredient and tag data
+        ingredients = explode_ingredient_list(data)
+        tags = get_tags(data, "tags")
+
+        path = upload_recipe_img(img_path, title)
+        original_recipe = database_handler.get_recipe(recipe_id)
+        if original_recipe is None:
+            return templates.TemplateResponse("404.jinja2", {"request": request, "error": "Recipe not found"})
+        if original_recipe.author != user:
+            return templates.TemplateResponse("forbidden.jinja2", {"request": request, "error": "You are not allowed to edit this recipe"})
+        if path is None:
+            path = original_recipe.img_path
+
+        if is_public == "public":
+            is_public = True
+        else:
+            is_public = False
+        # Create a new recipe object with the updated data
+        recipe = Recipe(
+            title=title,
+            img_path=path,
+            portions=portions,
+            prep_time=prep_time,
+            cook_time=cook_time,
+            text=description,
+            ingredients=ingredients,
+            tags=tags,
+            author=user,
+            author_id=user_id,
+            is_public=is_public,
+            id = original_recipe.id,
+        )
+
+
+
+        print(data)
+        database_handler.update_recipe(recipe)
+        return RedirectResponse(url="/")
+    else:
+        return RedirectResponse(url="/forbidden")

@@ -1,10 +1,4 @@
-<!Doctype HTML>
-<head>
-    <title>RecipeDB</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-    <div class="recipe">
+<div class="recipe">
         <div class="header">
             <h1>{{ recipe.title }}</h1>
             <h2>by <i>{{ recipe.author }}</i></h2>
@@ -15,10 +9,10 @@
                 <span><img src="/static/icons/cook_time.svg" alt="Cook time icon"> {{ recipe.cook_time }} min.</span>
                 <span><img src="/static/icons/total_time.svg" alt="Total time icon"> {{ recipe.prep_time+recipe.cook_time }} min.</span>
             </div>
-        {% if user == recipe.author %}
+            {% if user == recipe.author %}
                 <a href="/recipe/edit/{{ recipe.id }}" class="edit-button">Edit</a>
                 <button onclick="deleteRecipe({{ recipe.id }})" class="delete-button">Delete</button>
-        {% endif %}
+            {% endif %}
         </div>
         <div class="body">
             <h2>Ingredients</h2>
@@ -38,4 +32,3 @@
             </ul>
         </div>
     </div>
-</body>
