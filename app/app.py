@@ -16,7 +16,8 @@ from fastapi.encoders import jsonable_encoder
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-
+from fastapi.openapi.docs import get_redoc_html, get_swagger_ui_html
+from fastapi.openapi.utils import get_openapi
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,7 +26,14 @@ async def lifespan(app: FastAPI):
 
 limiter = Limiter(key_func=get_remote_address)
 
-app = FastAPI(lifespan=lifespan, title="Recipe DB")
+app = FastAPI(lifespan=lifespan,
+              title="Recipe App",
+              version="1.0.0",
+              description="A simple recipe database API with user authentication and rate limiting. For Web Engineering 2",
+              docs_url=None,
+              redoc_url=None,
+              openapi_url=None
+              )
 
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
@@ -84,10 +92,9 @@ async def teapot(request: Request):
     """
     Handles the GET request for the teapot endpoint.
     Returns:
-        dict: A dictionary indicating that the server is a teapot.
-            - {"Error": "418 I'm a teapot"}.
+        JSONResponse: Returns a 418 status code with an error message indicating that the server is a teapot.
     """
-    return {"Error": "418 I'm a teapot"}
+    return JSONResponse(status_code=418, content={"error": "I'm a teapot"})
 
 @app.post("/login")
 @limiter.limit("50/minute")
@@ -313,7 +320,7 @@ async def view_recipe(request: Request, recipe_id: int):
     if not token:
         return RedirectResponse(url="/forbidden")
     if recipe is None:
-        return {"Error": "Recipe not found"}
+        return templates.TemplateResponse("404.jinja2", {"request": request, "error": "Recipe not found"})
     if recipe.is_public is False and recipe.author != author:
         return RedirectResponse(url="/forbidden")
     return templates.TemplateResponse("recipe.jinja2", {"request": request, "recipe": recipe})
@@ -322,30 +329,50 @@ async def view_recipe(request: Request, recipe_id: int):
 @limiter.limit("10/minute")
 @limiter.limit("10/minute")
 async def recipe_partial(request: Request, recipe_id: int):
+    """
+    Retrieves a partial view of a recipe based on its ID.
+    Args:
+        request (Request): The incoming HTTP request.
+        recipe_id (int): The unique identifier of the recipe to retrieve.
+    Returns:
+        TemplateResponse: Renders a partial view of the recipe if the user is authenticated and authorized.
+        JSONResponse: Returns a 401 Unauthorized response if the user is not authenticated.
+        JSONResponse: Returns a 404 Not Found response if the recipe does not exist.
+    """
     token = verify_access_token(request)
     if not token:
-        return {401, "Unauthorized"}
+        return JSONResponse(status_code=401, content={"Unauthorized"})
     user = token.get("sub")
     recipe = database_handler.get_recipe(recipe_id)
     # maybe here it should just return an error, instead of 404 or 401 to keep data secret from unauthorized users.
     # But I decided to keep it like this for now
     if recipe is None:
-        return {404, "Recipe not found"}
+        return JSONResponse(status_code=404, content={"Recipe not found"})
     if recipe.is_public is False and recipe.author != user:
-        return {401, "Unauthorized"}
+        return JSONResponse(status_code=401, content={"Unauthorized"})
     return templates.TemplateResponse("recipePartial.jinja2", {"request": request, "recipe": recipe, "user": user})
 
 @app.get("/api/recipe/get/{recipe_id}")
 async def get_recipe(request: Request, recipe_id: int):
+    """
+    Retrieves a recipe by its ID and returns it in JSON format.
+    Args:
+        request (Request): The incoming HTTP request.
+        recipe_id (int): The unique identifier of the recipe to retrieve.
+    Returns:
+        JSONResponse: Returns the recipe in JSON format if the user is authenticated and authorized.
+        JSONResponse: Returns a 401 Unauthorized response if the user is not authenticated.
+        JSONResponse: Returns a 404 Not Found response if the recipe does not exist.
+    """
     token = verify_access_token(request)
     if not token:
-        return {401, "Unauthorized"}
+        return JSONResponse(status_code=401, content={"Unauthorized"})
     user = token.get("sub")
     recipe = database_handler.get_recipe(recipe_id)
     if recipe is None:
-        return {404, "Recipe not found"}
+        return JSONResponse(status_code=404, content={"Recipe not found"})
     if recipe.is_public is False and recipe.author != user:
-        return {401, "Unauthorized"}
+        return JSONResponse(status_code=401, content={"Unauthorized"})
     return JSONResponse(status_code=200, content={"recipe": jsonable_encoder(recipe)})
 
 @app.delete("/api/recipe/delete/{recipe_id}")
@@ -353,13 +380,13 @@ async def get_recipe(request: Request, recipe_id: int):
 async def delete_recipe(request: Request, recipe_id: int):
     token = verify_access_token(request)
     if not token:
-        return {401, "Unauthorized"}
+        return JSONResponse(status_code=401, content={"Unauthorized"})
     user = token.get("sub")
     recipe = database_handler.get_recipe(recipe_id)
     if recipe is None:
-        return {404, "Recipe not found"}
+        return JSONResponse(status_code=404, content={"Recipe not found"})
     if recipe.author != user:
-        return {401, "Unauthorized"}
+        return JSONResponse(status_code=401, content={"Unauthorized"})
     database_handler.delete_recipe(recipe_id)
     return {200, "Recipe deleted successfully"}
 
@@ -437,3 +464,50 @@ async def edit_recipe(request: Request,
         return RedirectResponse(url="/")
     else:
         return RedirectResponse(url="/forbidden")
+
+# add security layer to doc and redoc endpoints
+@app.get("/docs", include_in_schema=False)
+async def get_docs(request: Request):
+    """
+    Redirects to the Swagger UI documentation page.
+
+    Args:
+        request (Request): The incoming HTTP request.
+
+    Returns:
+        RedirectResponse: Redirects to the Swagger UI documentation page.
+    """
+    if not verify_access_token(request):
+        return RedirectResponse(url="/forbidden")
+    return get_swagger_ui_html(openapi_url="/openapi.json", title="docs")
+@app.get("/redoc", include_in_schema=False)
+async def get_redoc(request: Request):
+    """
+    Redirects to the ReDoc documentation page.
+
+    Args:
+        request (Request): The incoming HTTP request.
+
+    Returns:
+        RedirectResponse: Redirects to the ReDoc documentation page.
+    """
+    if not verify_access_token(request):
+        return RedirectResponse(url="/forbidden")
+    return get_redoc_html(openapi_url="/openapi.json", title="docs")
+
+@app.get("/openapi.json", include_in_schema=False)
+def get_openapi_json(request: Request):
+    """
+    Generates the OpenAPI schema for the application.
+
+    Returns:
+        dict: The OpenAPI schema as a dictionary.
+    """
+    if not verify_access_token(request):
+        return RedirectResponse(url="/forbidden")
+    return get_openapi(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+        routes=app.routes,
+    )
