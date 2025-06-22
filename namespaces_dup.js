@@ -3,13 +3,18 @@ var namespaces_dup =
     [ "app", "namespaceapp.html", [
       [ "add_recipe", "namespaceapp.html#a6312090098e19952fcd677b7742342e0", null ],
       [ "add_recipe", "namespaceapp.html#a30b03f8907d00afaa20fa91ddf738713", null ],
+      [ "delete_recipe", "namespaceapp.html#acd3b829b354bf40c68541728671bd775", null ],
+      [ "edit_recipe", "namespaceapp.html#a99660bcb526b89474c0cc2332b5dd6e5", null ],
+      [ "edit_recipe", "namespaceapp.html#a5eb5e124c99919d02984f84836c6a214", null ],
       [ "forbidden", "namespaceapp.html#a95cb00ef3fe1f7045913a4d187cb746b", null ],
       [ "get_login_state", "namespaceapp.html#a4e529556f4b70838fce2cef9f012c31f", null ],
+      [ "get_recipe", "namespaceapp.html#a413c216a3b1a30779a7dc8641ecc96b5", null ],
       [ "home", "namespaceapp.html#aa1fbafee338606ae0108fa13446c7fd2", null ],
       [ "lifespan", "namespaceapp.html#a1ab40ab0f317cf2610aa1a862d29db40", null ],
       [ "login", "namespaceapp.html#a90bb24a18a1a27dbd49f2af01ad40441", null ],
       [ "login", "namespaceapp.html#a5275148239e02c8c8832c3fb65494bf1", null ],
       [ "logout", "namespaceapp.html#aa131e96cac4a49ae11bbf3872720a881", null ],
+      [ "recipe_partial", "namespaceapp.html#a67f9c6a5b7cb93e9a993ade8bc543db4", null ],
       [ "render_home", "namespaceapp.html#a41789ab4a413a9671260754f2424e809", null ],
       [ "root", "namespaceapp.html#af887d62478cbc044a663182d31a5e4b2", null ],
       [ "teapot", "namespaceapp.html#aa8557c0889e293bb11d99e29fe5bec8a", null ],
@@ -27,11 +32,13 @@ var namespaces_dup =
     [ "database_handler", "namespacedatabase__handler.html", [
       [ "create_recipe", "namespacedatabase__handler.html#a63e8bd7a71619c4cfe6a1c04b2a94bb3", null ],
       [ "create_user", "namespacedatabase__handler.html#af7fb79738a192c2332c522b93a2e831b", null ],
+      [ "delete_recipe", "namespacedatabase__handler.html#a1475c150110546d3088dd76c4cf827c3", null ],
       [ "does_username_exist", "namespacedatabase__handler.html#ae974965da9760d24700ae661760e4ee9", null ],
       [ "get_recipe", "namespacedatabase__handler.html#af86541b6ee520fca0723af73b8d33c39", null ],
       [ "get_recipes", "namespacedatabase__handler.html#a972e49c4fd443c7b27fbd4b406a158a9", null ],
       [ "get_user", "namespacedatabase__handler.html#a26c56b7049326d41411267011247b30c", null ],
       [ "startup", "namespacedatabase__handler.html#ad5052bac0cbc8c6ffbdcefff69325390", null ],
+      [ "update_recipe", "namespacedatabase__handler.html#a5082e1fcd5a5da8b57aee4f7d49032f3", null ],
       [ "ENGINE", "namespacedatabase__handler.html#ad3bc2b896f21f5dab529a45b44de245e", null ]
     ] ],
     [ "form_helper", "namespaceform__helper.html", [

@@ -121,6 +121,10 @@ Functions</h2></td></tr>
 <tr class="separator:af86541b6ee520fca0723af73b8d33c39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a972e49c4fd443c7b27fbd4b406a158a9" id="r_a972e49c4fd443c7b27fbd4b406a158a9"><td class="memItemLeft" align="right" valign="top">list[<a class="el" href="classmodels_1_1Recipe.html">Recipe</a>]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a972e49c4fd443c7b27fbd4b406a158a9">get_recipes</a> (start=0, amount=10)</td></tr>
 <tr class="separator:a972e49c4fd443c7b27fbd4b406a158a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1475c150110546d3088dd76c4cf827c3" id="r_a1475c150110546d3088dd76c4cf827c3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1475c150110546d3088dd76c4cf827c3">delete_recipe</a> (recipe_id)</td></tr>
+<tr class="separator:a1475c150110546d3088dd76c4cf827c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5082e1fcd5a5da8b57aee4f7d49032f3" id="r_a5082e1fcd5a5da8b57aee4f7d49032f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5082e1fcd5a5da8b57aee4f7d49032f3">update_recipe</a> (recipe)</td></tr>
+<tr class="separator:a5082e1fcd5a5da8b57aee4f7d49032f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -149,18 +153,18 @@ Variables</h2></td></tr>
 Args:
     recipe_to_create (Recipe): The recipe object to be added to the database.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00078">78</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   78</span><span class="keyword">def </span>create_recipe(recipe_to_create: Recipe):</div>
-<div class="line"><span class="lineno">   79</span>    <span class="stringliteral">&quot;&quot;&quot;Creates a new recipe in the database.</span></div>
-<div class="line"><span class="lineno">   80</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   81</span><span class="stringliteral">    Args:</span></div>
-<div class="line"><span class="lineno">   82</span><span class="stringliteral">        recipe_to_create (Recipe): The recipe object to be added to the database.</span></div>
-<div class="line"><span class="lineno">   83</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   84</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
-<div class="line"><span class="lineno">   85</span>        session.add(recipe_to_create)</div>
-<div class="line"><span class="lineno">   86</span>        session.commit()</div>
-<div class="line"><span class="lineno">   87</span> </div>
+<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00079">79</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   79</span><span class="keyword">def </span>create_recipe(recipe_to_create: Recipe):</div>
+<div class="line"><span class="lineno">   80</span>    <span class="stringliteral">&quot;&quot;&quot;Creates a new recipe in the database.</span></div>
+<div class="line"><span class="lineno">   81</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   82</span><span class="stringliteral">    Args:</span></div>
+<div class="line"><span class="lineno">   83</span><span class="stringliteral">        recipe_to_create (Recipe): The recipe object to be added to the database.</span></div>
+<div class="line"><span class="lineno">   84</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   85</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
+<div class="line"><span class="lineno">   86</span>        session.add(recipe_to_create)</div>
+<div class="line"><span class="lineno">   87</span>        session.commit()</div>
 <div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -186,24 +190,71 @@ Args:
 Returns:
     bool: True if the user was successfully created, False if the username already exists.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00041">41</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   41</span><span class="keyword">def </span>create_user(user_to_create: User) -&gt; bool:</div>
-<div class="line"><span class="lineno">   42</span>    <span class="stringliteral">&quot;&quot;&quot;Creates a new user in the database.</span></div>
-<div class="line"><span class="lineno">   43</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   44</span><span class="stringliteral">    Args:</span></div>
-<div class="line"><span class="lineno">   45</span><span class="stringliteral">        user_to_create (User): The user object to be added to the database.</span></div>
-<div class="line"><span class="lineno">   46</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   47</span><span class="stringliteral">    Returns:</span></div>
-<div class="line"><span class="lineno">   48</span><span class="stringliteral">        bool: True if the user was successfully created, False if the username already exists.</span></div>
-<div class="line"><span class="lineno">   49</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   50</span>    <span class="keywordflow">if</span> does_username_exist(user_to_create.username):</div>
-<div class="line"><span class="lineno">   51</span>        <span class="keywordflow">return</span> <span class="keyword">False</span></div>
-<div class="line"><span class="lineno">   52</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
-<div class="line"><span class="lineno">   53</span>        session.add(user_to_create)</div>
-<div class="line"><span class="lineno">   54</span>        session.commit()</div>
-<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">return</span> <span class="keyword">True</span></div>
-<div class="line"><span class="lineno">   56</span> </div>
+<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00042">42</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span><span class="keyword">def </span>create_user(user_to_create: User) -&gt; bool:</div>
+<div class="line"><span class="lineno">   43</span>    <span class="stringliteral">&quot;&quot;&quot;Creates a new user in the database.</span></div>
+<div class="line"><span class="lineno">   44</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   45</span><span class="stringliteral">    Args:</span></div>
+<div class="line"><span class="lineno">   46</span><span class="stringliteral">        user_to_create (User): The user object to be added to the database.</span></div>
+<div class="line"><span class="lineno">   47</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   48</span><span class="stringliteral">    Returns:</span></div>
+<div class="line"><span class="lineno">   49</span><span class="stringliteral">        bool: True if the user was successfully created, False if the username already exists.</span></div>
+<div class="line"><span class="lineno">   50</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   51</span>    <span class="keywordflow">if</span> does_username_exist(user_to_create.username):</div>
+<div class="line"><span class="lineno">   52</span>        <span class="keywordflow">return</span> <span class="keyword">False</span></div>
+<div class="line"><span class="lineno">   53</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
+<div class="line"><span class="lineno">   54</span>        session.add(user_to_create)</div>
+<div class="line"><span class="lineno">   55</span>        session.commit()</div>
+<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">return</span> <span class="keyword">True</span></div>
 <div class="line"><span class="lineno">   57</span> </div>
+<div class="line"><span class="lineno">   58</span> </div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a1475c150110546d3088dd76c4cf827c3" name="a1475c150110546d3088dd76c4cf827c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1475c150110546d3088dd76c4cf827c3">&#9670;&#160;</a></span>delete_recipe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">database_handler.delete_recipe </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>recipe_id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Deletes a recipe from the database by its recipe ID.
+
+Args:
+    recipe_id (int): The ID of the recipe to delete.
+
+Returns:
+    bool: True if the recipe was successfully deleted, otherwise False.
+</pre> 
+<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00120">120</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  120</span><span class="keyword">def </span>delete_recipe(recipe_id):</div>
+<div class="line"><span class="lineno">  121</span>    <span class="stringliteral">&quot;&quot;&quot;Deletes a recipe from the database by its recipe ID.</span></div>
+<div class="line"><span class="lineno">  122</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  123</span><span class="stringliteral">    Args:</span></div>
+<div class="line"><span class="lineno">  124</span><span class="stringliteral">        recipe_id (int): The ID of the recipe to delete.</span></div>
+<div class="line"><span class="lineno">  125</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  126</span><span class="stringliteral">    Returns:</span></div>
+<div class="line"><span class="lineno">  127</span><span class="stringliteral">        bool: True if the recipe was successfully deleted, otherwise False.</span></div>
+<div class="line"><span class="lineno">  128</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  129</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
+<div class="line"><span class="lineno">  130</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  131</span>            <span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> delete</div>
+<div class="line"><span class="lineno">  132</span>            query = delete(Recipe).where(Recipe.id == recipe_id)</div>
+<div class="line"><span class="lineno">  133</span>            result = session.exec(query)</div>
+<div class="line"><span class="lineno">  134</span>            session.commit()</div>
+<div class="line"><span class="lineno">  135</span>            <span class="keywordflow">return</span> <span class="keyword">True</span></div>
+<div class="line"><span class="lineno">  136</span>        <span class="keywordflow">except</span> SQLAlchemyError <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">return</span> <span class="keyword">False</span></div>
+<div class="line"><span class="lineno">  138</span> </div>
+<div class="line"><span class="lineno">  139</span> </div>
+<div class="line"><span class="lineno">  140</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -229,27 +280,27 @@ Args:
 Returns:
     bool: True if the username exists, False otherwise.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00058">58</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   58</span><span class="keyword">def </span>does_username_exist(username: str) -&gt; bool:</div>
-<div class="line"><span class="lineno">   59</span>    <span class="stringliteral">&quot;&quot;&quot;Checks if a username exists in the database.</span></div>
-<div class="line"><span class="lineno">   60</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   61</span><span class="stringliteral">    Args:</span></div>
-<div class="line"><span class="lineno">   62</span><span class="stringliteral">        username (str): The username to check.</span></div>
-<div class="line"><span class="lineno">   63</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   64</span><span class="stringliteral">    Returns:</span></div>
-<div class="line"><span class="lineno">   65</span><span class="stringliteral">        bool: True if the username exists, False otherwise.</span></div>
-<div class="line"><span class="lineno">   66</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   67</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
-<div class="line"><span class="lineno">   68</span>        query = select(User).where(User.username == username)</div>
-<div class="line"><span class="lineno">   69</span>        fetched_user = session.exec(query).first()</div>
-<div class="line"><span class="lineno">   70</span>        <span class="keywordflow">return</span> fetched_user <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
-<div class="line"><span class="lineno">   71</span> </div>
+<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00059">59</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span><span class="keyword">def </span>does_username_exist(username: str) -&gt; bool:</div>
+<div class="line"><span class="lineno">   60</span>    <span class="stringliteral">&quot;&quot;&quot;Checks if a username exists in the database.</span></div>
+<div class="line"><span class="lineno">   61</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   62</span><span class="stringliteral">    Args:</span></div>
+<div class="line"><span class="lineno">   63</span><span class="stringliteral">        username (str): The username to check.</span></div>
+<div class="line"><span class="lineno">   64</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   65</span><span class="stringliteral">    Returns:</span></div>
+<div class="line"><span class="lineno">   66</span><span class="stringliteral">        bool: True if the username exists, False otherwise.</span></div>
+<div class="line"><span class="lineno">   67</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   68</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
+<div class="line"><span class="lineno">   69</span>        query = select(User).where(User.username == username)</div>
+<div class="line"><span class="lineno">   70</span>        fetched_user = session.exec(query).first()</div>
+<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">return</span> fetched_user <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span></div>
 <div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span><span class="comment">#endregion user</span></div>
-<div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span><span class="comment">#region recipe</span></div>
-<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span><span class="comment">#endregion user</span></div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span><span class="comment">#region recipe</span></div>
 <div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -275,21 +326,21 @@ Args:
 Returns:
     Recipe: The recipe object if found, otherwise None.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00089">89</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   89</span><span class="keyword">def </span>get_recipe(recipe_id: int) -&gt; Recipe:</div>
-<div class="line"><span class="lineno">   90</span>    <span class="stringliteral">&quot;&quot;&quot;Fetches a recipe from the database by its ID.</span></div>
-<div class="line"><span class="lineno">   91</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   92</span><span class="stringliteral">    Args:</span></div>
-<div class="line"><span class="lineno">   93</span><span class="stringliteral">        recipe_id (int): The ID of the recipe to fetch.</span></div>
-<div class="line"><span class="lineno">   94</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   95</span><span class="stringliteral">    Returns:</span></div>
-<div class="line"><span class="lineno">   96</span><span class="stringliteral">        Recipe: The recipe object if found, otherwise None.</span></div>
-<div class="line"><span class="lineno">   97</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   98</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
-<div class="line"><span class="lineno">   99</span>        query = select(Recipe).where(Recipe.id == recipe_id)</div>
-<div class="line"><span class="lineno">  100</span>        fetched_recipe = session.exec(query).first()</div>
-<div class="line"><span class="lineno">  101</span>        <span class="keywordflow">return</span> fetched_recipe[0] <span class="keywordflow">if</span> fetched_recipe <span class="keywordflow">else</span> <span class="keywordtype">None</span></div>
-<div class="line"><span class="lineno">  102</span> </div>
+<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00090">90</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   90</span><span class="keyword">def </span>get_recipe(recipe_id: int) -&gt; Recipe:</div>
+<div class="line"><span class="lineno">   91</span>    <span class="stringliteral">&quot;&quot;&quot;Fetches a recipe from the database by its ID.</span></div>
+<div class="line"><span class="lineno">   92</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   93</span><span class="stringliteral">    Args:</span></div>
+<div class="line"><span class="lineno">   94</span><span class="stringliteral">        recipe_id (int): The ID of the recipe to fetch.</span></div>
+<div class="line"><span class="lineno">   95</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   96</span><span class="stringliteral">    Returns:</span></div>
+<div class="line"><span class="lineno">   97</span><span class="stringliteral">        Recipe: The recipe object if found, otherwise None.</span></div>
+<div class="line"><span class="lineno">   98</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   99</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
+<div class="line"><span class="lineno">  100</span>        query = select(Recipe).where(Recipe.id == recipe_id)</div>
+<div class="line"><span class="lineno">  101</span>        fetched_recipe = session.exec(query).first()</div>
+<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">return</span> fetched_recipe[0] <span class="keywordflow">if</span> fetched_recipe <span class="keywordflow">else</span> <span class="keywordtype">None</span></div>
+<div class="line"><span class="lineno">  103</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -320,23 +371,23 @@ Args:
 Returns:
     list[Recipe]: A list of recipe objects.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00103">103</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  103</span><span class="keyword">def </span>get_recipes(start=0, amount=10) -&gt; list[Recipe]:</div>
-<div class="line"><span class="lineno">  104</span>    <span class="stringliteral">&quot;&quot;&quot;Fetches recipes from the database with pagination.</span></div>
-<div class="line"><span class="lineno">  105</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">  106</span><span class="stringliteral">    Args:</span></div>
-<div class="line"><span class="lineno">  107</span><span class="stringliteral">        start (int): The starting index.</span></div>
-<div class="line"><span class="lineno">  108</span><span class="stringliteral">        amount (int): The number of recipes to fetch.</span></div>
-<div class="line"><span class="lineno">  109</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">  110</span><span class="stringliteral">    Returns:</span></div>
-<div class="line"><span class="lineno">  111</span><span class="stringliteral">        list[Recipe]: A list of recipe objects.</span></div>
-<div class="line"><span class="lineno">  112</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">  113</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
-<div class="line"><span class="lineno">  114</span>        query = select(Recipe).offset(start).limit(amount)</div>
-<div class="line"><span class="lineno">  115</span>        fetched_recipes = session.exec(query).all()</div>
-<div class="line"><span class="lineno">  116</span>        <span class="keywordflow">return</span> fetched_recipes</div>
-<div class="line"><span class="lineno">  117</span> </div>
-<div class="line"><span class="lineno">  118</span><span class="comment">#endregion</span></div>
+<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00104">104</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  104</span><span class="keyword">def </span>get_recipes(start=0, amount=10) -&gt; list[Recipe]:</div>
+<div class="line"><span class="lineno">  105</span>    <span class="stringliteral">&quot;&quot;&quot;Fetches recipes from the database with pagination.</span></div>
+<div class="line"><span class="lineno">  106</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  107</span><span class="stringliteral">    Args:</span></div>
+<div class="line"><span class="lineno">  108</span><span class="stringliteral">        start (int): The starting index.</span></div>
+<div class="line"><span class="lineno">  109</span><span class="stringliteral">        amount (int): The number of recipes to fetch.</span></div>
+<div class="line"><span class="lineno">  110</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">  111</span><span class="stringliteral">    Returns:</span></div>
+<div class="line"><span class="lineno">  112</span><span class="stringliteral">        list[Recipe]: A list of recipe objects.</span></div>
+<div class="line"><span class="lineno">  113</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">  114</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
+<div class="line"><span class="lineno">  115</span>        query = select(Recipe).offset(start).limit(amount)</div>
+<div class="line"><span class="lineno">  116</span>        fetched_recipes = session.exec(query).all()</div>
+<div class="line"><span class="lineno">  117</span>        <span class="keywordflow">return</span> fetched_recipes</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span><span class="comment">#endregion</span></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -362,27 +413,27 @@ Args:
 Returns:
     User | None: The user object if found, otherwise None.
 </pre> 
-<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00021">21</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   21</span><span class="keyword">def </span>get_user(username: str) -&gt; User | <span class="keywordtype">None</span>:</div>
-<div class="line"><span class="lineno">   22</span>    <span class="stringliteral">&quot;&quot;&quot;Fetches a user from the database by username.</span></div>
-<div class="line"><span class="lineno">   23</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   24</span><span class="stringliteral">    Args:</span></div>
-<div class="line"><span class="lineno">   25</span><span class="stringliteral">        username (str): The username of the user to fetch.</span></div>
-<div class="line"><span class="lineno">   26</span><span class="stringliteral"></span> </div>
-<div class="line"><span class="lineno">   27</span><span class="stringliteral">    Returns:</span></div>
-<div class="line"><span class="lineno">   28</span><span class="stringliteral">        User | None: The user object if found, otherwise None.</span></div>
-<div class="line"><span class="lineno">   29</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   30</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
-<div class="line"><span class="lineno">   31</span>        query = select(User).where(User.username == username)</div>
-<div class="line"><span class="lineno">   32</span>        fetched_user = session.exec(query).first()</div>
-<div class="line"><span class="lineno">   33</span>        print(fetched_user)</div>
-<div class="line"><span class="lineno">   34</span>        print(does_username_exist(username))</div>
-<div class="line"><span class="lineno">   35</span>        <span class="keywordflow">if</span> fetched_user:</div>
-<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">return</span> fetched_user[0]</div>
-<div class="line"><span class="lineno">   37</span> </div>
-<div class="line"><span class="lineno">   38</span>    <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
-<div class="line"><span class="lineno">   39</span> </div>
+<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00022">22</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   22</span><span class="keyword">def </span>get_user(username: str) -&gt; User | <span class="keywordtype">None</span>:</div>
+<div class="line"><span class="lineno">   23</span>    <span class="stringliteral">&quot;&quot;&quot;Fetches a user from the database by username.</span></div>
+<div class="line"><span class="lineno">   24</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   25</span><span class="stringliteral">    Args:</span></div>
+<div class="line"><span class="lineno">   26</span><span class="stringliteral">        username (str): The username of the user to fetch.</span></div>
+<div class="line"><span class="lineno">   27</span><span class="stringliteral"></span> </div>
+<div class="line"><span class="lineno">   28</span><span class="stringliteral">    Returns:</span></div>
+<div class="line"><span class="lineno">   29</span><span class="stringliteral">        User | None: The user object if found, otherwise None.</span></div>
+<div class="line"><span class="lineno">   30</span><span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   31</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
+<div class="line"><span class="lineno">   32</span>        query = select(User).where(User.username == username)</div>
+<div class="line"><span class="lineno">   33</span>        fetched_user = session.exec(query).first()</div>
+<div class="line"><span class="lineno">   34</span>        print(fetched_user)</div>
+<div class="line"><span class="lineno">   35</span>        print(does_username_exist(username))</div>
+<div class="line"><span class="lineno">   36</span>        <span class="keywordflow">if</span> fetched_user:</div>
+<div class="line"><span class="lineno">   37</span>            <span class="keywordflow">return</span> fetched_user[0]</div>
+<div class="line"><span class="lineno">   38</span> </div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
 <div class="line"><span class="lineno">   40</span> </div>
+<div class="line"><span class="lineno">   41</span> </div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -401,16 +452,50 @@ Returns:
       </table>
 </div><div class="memdoc">
 <pre class="fragment">Initializes the database connection and creates tables if they don't exist.</pre> 
-<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00012">12</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   12</span><span class="keyword">def </span>startup():</div>
-<div class="line"><span class="lineno">   13</span>    <span class="stringliteral">&quot;&quot;&quot;Initializes the database connection and creates tables if they don&#39;t exist.&quot;&quot;&quot;</span></div>
-<div class="line"><span class="lineno">   14</span>    <span class="keyword">global</span> ENGINE</div>
-<div class="line"><span class="lineno">   15</span>    os.makedirs(<span class="stringliteral">&quot;data&quot;</span>, exist_ok=<span class="keyword">True</span>)</div>
-<div class="line"><span class="lineno">   16</span>    ENGINE = create_engine(<span class="stringliteral">&quot;sqlite:///data/database1.sqlite&quot;</span>)</div>
-<div class="line"><span class="lineno">   17</span>    SQLModel.metadata.create_all(ENGINE)</div>
-<div class="line"><span class="lineno">   18</span> </div>
+<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00013">13</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   13</span><span class="keyword">def </span>startup():</div>
+<div class="line"><span class="lineno">   14</span>    <span class="stringliteral">&quot;&quot;&quot;Initializes the database connection and creates tables if they don&#39;t exist.&quot;&quot;&quot;</span></div>
+<div class="line"><span class="lineno">   15</span>    <span class="keyword">global</span> ENGINE</div>
+<div class="line"><span class="lineno">   16</span>    os.makedirs(<span class="stringliteral">&quot;data&quot;</span>, exist_ok=<span class="keyword">True</span>)</div>
+<div class="line"><span class="lineno">   17</span>    ENGINE = create_engine(<span class="stringliteral">&quot;sqlite:///data/database1.sqlite&quot;</span>)</div>
+<div class="line"><span class="lineno">   18</span>    SQLModel.metadata.create_all(ENGINE)</div>
 <div class="line"><span class="lineno">   19</span> </div>
-<div class="line"><span class="lineno">   20</span><span class="comment"># region user</span></div>
+<div class="line"><span class="lineno">   20</span> </div>
+<div class="line"><span class="lineno">   21</span><span class="comment"># region user</span></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a5082e1fcd5a5da8b57aee4f7d49032f3" name="a5082e1fcd5a5da8b57aee4f7d49032f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5082e1fcd5a5da8b57aee4f7d49032f3">&#9670;&#160;</a></span>update_recipe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">database_handler.update_recipe </td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>recipe</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00141">141</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  141</span><span class="keyword">def </span>update_recipe(recipe):</div>
+<div class="line"><span class="lineno">  142</span>    <span class="keyword">with</span> Session(ENGINE) <span class="keyword">as</span> session:</div>
+<div class="line"><span class="lineno">  143</span>        <span class="keywordflow">try</span>:</div>
+<div class="line"><span class="lineno">  144</span>            db_recipe = session.get(Recipe, recipe.id)</div>
+<div class="line"><span class="lineno">  145</span>            <span class="keywordflow">if</span> <span class="keywordflow">not</span> db_recipe:</div>
+<div class="line"><span class="lineno">  146</span>                <span class="keywordflow">return</span> <span class="keyword">False</span></div>
+<div class="line"><span class="lineno">  147</span>            <span class="keywordflow">for</span> key, value <span class="keywordflow">in</span> recipe.dict(exclude_unset=<span class="keyword">True</span>).items():</div>
+<div class="line"><span class="lineno">  148</span>                setattr(db_recipe, key, value)</div>
+<div class="line"><span class="lineno">  149</span>            session.add(db_recipe)</div>
+<div class="line"><span class="lineno">  150</span>            session.commit()</div>
+<div class="line"><span class="lineno">  151</span>            print(<span class="stringliteral">&quot;Recipe updated successfully&quot;</span>)</div>
+<div class="line"><span class="lineno">  152</span>            <span class="keywordflow">return</span> <span class="keyword">True</span></div>
+<div class="line"><span class="lineno">  153</span>        <span class="keywordflow">except</span> SQLAlchemyError <span class="keyword">as</span> e:</div>
+<div class="line"><span class="lineno">  154</span>            print(e)</div>
+<div class="line"><span class="lineno">  155</span>            <span class="keywordflow">return</span> <span class="keyword">False</span></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -427,7 +512,7 @@ Returns:
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00009">9</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="database__handler_8py_source.html#l00010">10</a> of file <a class="el" href="database__handler_8py_source.html">database_handler.py</a>.</p>
 
 </div>
 </div>
