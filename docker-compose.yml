@@ -1,0 +1,10 @@
+services:
+  recipe-app:
+    container_name: recipe-app
+    image: pixelwelt/recipe-app:latest
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/images:/app/static/recipe_images
+      - ./data/db:/app/data
