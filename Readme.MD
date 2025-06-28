@@ -17,6 +17,9 @@ docker-compose -f docker-compose-dev.yml up -d
 ```
 
 > Note: To stop the app, run `docker-compose down`. Sometimes `docker-compose` does not exist try `docker compose` instead.
+## Warning
+> [!WARNING] This app is not production ready. It is only for educational purposes and should not be used in a production environment.
+> Please note, that the authentication SECRET_KEY is currently stored in plain text in the `auth_handler.py` file. Please replace "your_secret_key" with a secure key before using this app in a production environment.
 
 ## Code Documentation
 visit https://pixelwelt.github.io/WebEng-2-Projekt/ for a detailed documentation of the code.
